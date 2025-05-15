@@ -1,5 +1,14 @@
 dev:
-	php artisan serve
+	pnpm dev
+
+start:
+	pnpm start
+
+analyze:
+	pnpm analyze
+
+prettify:
+	pnpm prettify
 
 db-up:
 	docker compose up -d
