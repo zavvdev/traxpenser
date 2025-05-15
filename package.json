@@ -1,7 +1,7 @@
 {
-  "name": "traxpencer",
+  "name": "traxpenser",
   "version": "1.0.0",
-  "description": "Expences Tracker",
+  "description": "Expenses Tracker",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zavvdev/traxpencer.git"
+    "url": "git+https://github.com/zavvdev/traxpenser.git"
   },
   "author": "Zaviriukha Igor",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zavvdev/traxpencer/issues"
+    "url": "https://github.com/zavvdev/traxpenser/issues"
   },
-  "homepage": "https://github.com/zavvdev/traxpencer#readme",
+  "homepage": "https://github.com/zavvdev/traxpenser#readme",
   "dependencies": {
     "dotenv": "16.4.7",
     "express": "4.21.2",
