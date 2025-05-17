@@ -7,14 +7,14 @@ export var errorResponse = (res) => (data, message, status) =>
   res.status(status || 500).json({
     status: RESPONSE_STATUS.error,
     message: msg(message)(MESSAGES.unexpectedError),
-    data: data ?? null,
+    data: data || null,
   });
 
 export var successResponse = (res) => (data, message, status) =>
   res.status(status || 200).json({
     status: RESPONSE_STATUS.success,
     message: msg(message)(MESSAGES.ok),
-    data: data ?? null,
+    data: data || null,
   });
 
 export var handler =
