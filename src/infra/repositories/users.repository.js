@@ -1,4 +1,5 @@
 import { db } from "../database/index.js";
+import { User } from "../models/User.js";
 
 export class UsersRepo {
   constructor(client) {
@@ -9,7 +10,7 @@ export class UsersRepo {
   }
 
   async getAll() {
-    return this._client.get();
+    return await User.find();
   }
 }
 
