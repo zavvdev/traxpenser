@@ -6,11 +6,9 @@ mongoose
     `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`,
   )
   .then(() => {
-    // eslint-disable-next-line no-console
     console.log("Database connected");
   })
   .catch((err) => {
-    // eslint-disable-next-line no-console
     console.error("Database connection error:", err);
   });
 
