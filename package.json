@@ -8,10 +8,8 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "prepare": "husky",
-    "lint": "eslint ./src --report-unused-disable-directives --max-warnings=0",
-    "prettier": "npx prettier --check .",
-    "prettify": "npx prettier --write .",
-    "analyze": "pnpm prettier"
+    "analyze": "npx @biomejs/biome check ./src",
+    "unsafe-fix": "npx @biomejs/biome check --fix --unsafe ./src"
   },
   "repository": {
     "type": "git",
@@ -32,8 +30,8 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "husky": "^9.1.7",
-    "nodemon": "^3.1.10",
-    "prettier": "^3.5.1"
+    "nodemon": "^3.1.10"
   }
 }

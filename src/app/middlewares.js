@@ -1,8 +1,8 @@
+import { AUTH_HEADER, MESSAGES } from "../infra/config.js";
+import { MiddlewareError } from "../infra/middleware.js";
 import { RevokedToken } from "./models/RevokedToken.js";
 import { Session } from "./models/Session.js";
 import { User } from "./models/User.js";
-import { MiddlewareError } from "../infra/middleware.js";
-import { AUTH_HEADER, MESSAGES } from "../infra/config.js";
 
 export async function auth(req) {
   try {

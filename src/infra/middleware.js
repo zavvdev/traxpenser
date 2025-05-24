@@ -13,8 +13,13 @@ export class MiddlewareError extends Error {
   }
 }
 
-var createMiddlewareResult = (result) =>
-  result.reduce((c, { name, data }) => ({ ...c, [name]: data }), {});
+var createMiddlewareResult = (result) => {
+  var next = {};
+  result.forEach(({ name, data }) => {
+    next[name] = data;
+  });
+  return next;
+};
 
 export var withMiddlewares =
   (...middlewares) =>
