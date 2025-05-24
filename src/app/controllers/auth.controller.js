@@ -1,5 +1,5 @@
 import { AUTH_HEADER, MESSAGES } from "../../infra/config.js";
-import { db } from "../../infra/database.js";
+import { db } from "../../infra/database/index.js";
 import { encryptionService } from "../../infra/services/encryption.service.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { RevokedToken } from "../models/RevokedToken.js";

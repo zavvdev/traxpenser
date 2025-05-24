@@ -1,4 +1,4 @@
-import { db } from "../../infra/database.js";
+import { db } from "../../infra/database/index.js";
 
 var { Schema } = db;
 
