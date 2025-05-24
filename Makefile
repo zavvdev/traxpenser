@@ -7,8 +7,8 @@ start:
 analyze:
 	pnpm analyze
 
-prettify:
-	pnpm prettify
+unsafe-fix:
+	pnpm unsafe-fix
 
 db-up:
 	docker compose up -d
