@@ -1,8 +1,6 @@
 services:
-
-  db:
+  mongodb:
     image: mongo:latest
-    container_name: mongodb
     command: mongod --port 27017 --replSet rs0 --bind_ip_all --keyFile /data/configdb/keyfile
     restart: unless-stopped
     environment:
@@ -16,27 +14,67 @@ services:
       interval: 5s
     volumes:
       - ./keyfile.sh:/docker-entrypoint-initdb.d/keyfile.sh
-      - db_data:/data
-      - db_data_config:/data/configdb
+      - data:/data
+      - data_config:/data/configdb
 
-  db_init:
+  mongodb_replica_1:
+    image: mongo:latest
+    command: mongod --port 27018 --replSet rs0 --bind_ip_all --keyFile /data/configdb/keyfile
+    ports:
+      - ${DB_REPLICA_1_PORT}:27018
+    restart: unless-stopped
+    environment:
+      - MONGO_REPLICA_SET_KEY=${MONGO_REPLICA_SET_KEY}
+    volumes:
+      - ./keyfile.sh:/docker-entrypoint-initdb.d/keyfile.sh
+      - replica_1_data:/data
+      - replica_1_data_config:/data/configdb
+    healthcheck:
+      test: 'mongosh --quiet --port 27018 --eval "db.runCommand({ ping: 1 }).ok" | grep 1'
+
+  mongodb_replica_2:
+    image: mongo:latest
+    command: mongod --port 27019 --replSet rs0 --bind_ip_all --keyFile /data/configdb/keyfile
+    ports:
+      - ${DB_REPLICA_2_PORT}:27019
+    restart: unless-stopped
+    environment:
+      - MONGO_REPLICA_SET_KEY=${MONGO_REPLICA_SET_KEY}
+    volumes:
+      - ./keyfile.sh:/docker-entrypoint-initdb.d/keyfile.sh
+      - replica_2_data:/data
+      - replica_2_data_config:/data/configdb
+    healthcheck:
+      test: 'mongosh --quiet --port 27019 --eval "db.runCommand({ ping: 1 }).ok" | grep 1'
+
+  mongodb_init:
     image: mongo:latest
     restart: no
     depends_on:
-      db:
+      mongodb:
+        condition: service_healthy
+      mongodb_replica_1:
+        condition: service_healthy
+      mongodb_replica_2:
         condition: service_healthy
     command: >
       bash -c "
-        mongosh -u $DB_USER -p $DB_PASS --host db --port 27017 --eval '
+        mongosh -u $DB_USER -p $DB_PASS --host mongodb --port 27017 --eval '
           rs.initiate({
             _id: \"rs0\",
             members: [
-              { _id: 0, host: \"localhost:27017\" }
+              { _id: 0, host: \"mongodb:27017\" },
+              { _id: 1, host: \"mongodb_replica_1:27018\" },
+              { _id: 2, host: \"mongodb_replica_2:27019\" }
             ]
           })
         '
       "
 
 volumes:
-  db_data:
-  db_data_config:
+  data:
+  data_config:
+  replica_1_data:
+  replica_1_data_config:
+  replica_2_data:
+  replica_2_data_config:
