@@ -11,7 +11,6 @@ import { withMiddlewares } from "./infra/middleware.js";
 
 (() => {
   var api = (path) => `/api/v1${path}`;
-
   var app = express();
 
   app.use(express.json());

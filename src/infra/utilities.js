@@ -1,6 +1,12 @@
-import { MESSAGES, RESPONSE_STATUS, STATUS_BY_MESSAGE } from "./config.js";
+import {
+  MESSAGES,
+  MESSAGES_LIST,
+  RESPONSE_STATUS,
+  STATUS_BY_MESSAGE,
+} from "./config.js";
 
-var msg = (m) => (fallback) => (typeof m === "string" ? m : fallback);
+var msg = (m) => (fallback) =>
+  typeof m === "string" && MESSAGES_LIST.includes(m) ? m : fallback;
 
 export var errorResponse = (res) => (data, message) =>
   res.status(STATUS_BY_MESSAGE[message] || 500).json({

@@ -1,17 +1,5 @@
-import { MESSAGES, MESSAGES_LIST } from "./config.js";
+import { AppError } from "./errors.js";
 import { errorResponse } from "./utilities.js";
-
-export class MiddlewareError extends Error {
-  /**
-   * @param {string} message
-   * @param {(object | undefined)} response
-   */
-  constructor(message, payload = {}) {
-    super(message);
-    this.name = "MiddlewareError";
-    this.payload = payload || {};
-  }
-}
 
 var createMiddlewareResult = (result) => {
   var next = {};
@@ -39,18 +27,10 @@ export var withMiddlewares =
     } catch (error) {
       console.error(error);
 
-      if (error instanceof MiddlewareError) {
-        return errorResponse(res)(
-          error.payload,
-          error.message || MESSAGES.unexpectedError,
-        );
+      if (error instanceof AppError) {
+        return errorResponse(res)(error.payload, error.message);
       }
 
-      return errorResponse(res)(
-        null,
-        MESSAGES_LIST.includes(error.message)
-          ? error.message
-          : MESSAGES.unexpectedError,
-      );
+      return errorResponse(res)(null, error.message);
     }
   };

@@ -1,5 +1,5 @@
 import { AUTH_HEADER, MESSAGES } from "../infra/config.js";
-import { MiddlewareError } from "../infra/middleware.js";
+import { AppError } from "../infra/errors.js";
 import { RevokedToken } from "./models/RevokedToken.js";
 import { Session } from "./models/Session.js";
 import { User } from "./models/User.js";
@@ -32,7 +32,7 @@ export async function auth(req) {
       data: await User.findById(session.userId),
     };
   } catch {
-    throw new MiddlewareError(MESSAGES.unauthorized);
+    throw new AppError(MESSAGES.unauthorized);
   }
 }
 
@@ -45,7 +45,7 @@ export function validBody(schema) {
         data,
       };
     } catch (e) {
-      throw new MiddlewareError(
+      throw new AppError(
         MESSAGES.validationError,
         e.path && e.message
           ? {
