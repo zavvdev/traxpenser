@@ -22,6 +22,7 @@ export var VALIDATION_MESSAGES = {
   required: "required",
   typeString: "type_string",
   minLength: "min_length",
+  invalid: "invalid",
 };
 
 export var STATUS_BY_MESSAGE = {

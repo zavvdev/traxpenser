@@ -2,10 +2,12 @@ import express from "express";
 import "dotenv/config";
 
 import { authController } from "./app/controllers/auth.controller.js";
+import { settingsController } from "./app/controllers/settings.controller.js";
 import { usersController } from "./app/controllers/users.controller.js";
 import { auth, validBody } from "./app/middlewares.js";
 import { loginRequestSchema } from "./app/requests/auth/login.request.js";
 import { registerRequestSchema } from "./app/requests/auth/register.request.js";
+import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
 import { withMiddlewares } from "./infra/middleware.js";
 
@@ -32,6 +34,18 @@ import { withMiddlewares } from "./infra/middleware.js";
   // Users
 
   app.get(api("/me"), withMiddlewares(auth)(usersController.getMe));
+
+  // Settings
+
+  app.get(api("/settings"), withMiddlewares(auth)(settingsController.get));
+
+  app.put(
+    api("/settings"),
+    withMiddlewares(
+      auth,
+      validBody(updateSettingsRequestSchema),
+    )(settingsController.update),
+  );
 
   // ==========
 
