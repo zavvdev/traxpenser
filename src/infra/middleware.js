@@ -1,3 +1,4 @@
+import { extractDatabaseError } from "./database/utilities.js";
 import { AppError } from "./errors.js";
 import { errorResponse } from "./utilities.js";
 
@@ -29,6 +30,12 @@ export var withMiddlewares =
 
       if (error instanceof AppError) {
         return errorResponse(res)(error.payload, error.message);
+      }
+
+      var databaseError = extractDatabaseError(error);
+
+      if (databaseError) {
+        return errorResponse(res)(databaseError.data, databaseError.message);
       }
 
       return errorResponse(res)(null, error.message);

@@ -14,7 +14,8 @@ var PRIMARY_DB = `${DB_HOST}:${DB_PORT}`;
 var REP_1_DB = `${DB_HOST}:${DB_REPLICA_1_PORT}`;
 var REP_2_DB = `${DB_HOST}:${DB_REPLICA_2_PORT}`;
 
-mongoose.plugin(plugins.cleanTransform);
+mongoose.plugin(plugins.transformInternals);
+mongoose.plugin(plugins.transformDecimals);
 
 mongoose
   .connect(

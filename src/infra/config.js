@@ -14,6 +14,8 @@ export var MESSAGES = {
   validationError: "validation_error",
   invalidCredentials: "invalid_credentials",
   notFound: "not_found",
+  created: "created",
+  alreadyExists: "already_exists",
 };
 
 export var MESSAGES_LIST = Object.values(MESSAGES);
@@ -32,4 +34,6 @@ export var STATUS_BY_MESSAGE = {
   [MESSAGES.validationError]: 400,
   [MESSAGES.invalidCredentials]: 404,
   [MESSAGES.notFound]: 404,
+  [MESSAGES.created]: 201,
+  [MESSAGES.alreadyExists]: 409,
 };
