@@ -21,7 +21,8 @@
     "rules": {
       "recommended": true,
       "style": {
-        "noVar": "off"
+        "noVar": "off",
+        "noParameterAssign": "off"
       },
       "correctness": {
         "noInnerDeclarations": "off"

@@ -2,11 +2,13 @@ import express from "express";
 import "dotenv/config";
 
 import { authController } from "./app/controllers/auth.controller.js";
+import { categoriesController } from "./app/controllers/categories.controller.js";
 import { settingsController } from "./app/controllers/settings.controller.js";
 import { usersController } from "./app/controllers/users.controller.js";
 import { auth, validBody } from "./app/middlewares.js";
 import { loginRequestSchema } from "./app/requests/auth/login.request.js";
 import { registerRequestSchema } from "./app/requests/auth/register.request.js";
+import { mutateCategoryRequestSchema } from "./app/requests/categories/mutateCategory.request.js";
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
 import { withMiddlewares } from "./infra/middleware.js";
@@ -45,6 +47,39 @@ import { withMiddlewares } from "./infra/middleware.js";
       auth,
       validBody(updateSettingsRequestSchema),
     )(settingsController.update),
+  );
+
+  // Categories
+
+  app.get(
+    api("/categories"),
+    withMiddlewares(auth)(categoriesController.getAll),
+  );
+
+  app.get(
+    api("/categories/:id"),
+    withMiddlewares(auth)(categoriesController.getOne),
+  );
+
+  app.post(
+    api("/categories"),
+    withMiddlewares(
+      auth,
+      validBody(mutateCategoryRequestSchema),
+    )(categoriesController.createOne),
+  );
+
+  app.put(
+    api("/categories/:id"),
+    withMiddlewares(
+      auth,
+      validBody(mutateCategoryRequestSchema),
+    )(categoriesController.updateOne),
+  );
+
+  app.delete(
+    api("/categories/:id"),
+    withMiddlewares(auth)(categoriesController.deleteOne),
   );
 
   // ==========
