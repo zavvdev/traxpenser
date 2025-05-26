@@ -19,6 +19,10 @@ var schema = new Schema(
       type: Schema.Types.Decimal128,
       default: null,
     },
+    allowOverBudget: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -26,7 +30,9 @@ var schema = new Schema(
 );
 
 schema.methods.isLimitless = function () {
-  return this.budgetLimit === null || this.budgetLimit === undefined;
+  var noLimit = this.budgetLimit === null || this.budgetLimit === undefined;
+  var allowOverBudget = this.allowOverBudget === true;
+  return noLimit || allowOverBudget;
 };
 
 export var Category = db.model("Category", schema);
