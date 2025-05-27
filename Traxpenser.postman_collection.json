@@ -394,7 +394,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryId\": \"683364c278fd1c25a7fe6aea\",\n    \"name\": \"Pizza\",\n    \"price\": 5.99,\n    \"isCompleted\": true\n}",
+							"raw": "{\n    \"categoryId\": \"683364c278fd1c25a7fe6aea\",\n    \"name\": \"Pizza 2\",\n    \"price\": 15.99,\n    \"isCompleted\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -430,7 +430,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses?categoryId=683364c278fd1c25a7fe6aea&minPrice=10&maxPrice=30",
+							"raw": "{{API_URL}}/api/v1/expenses?categoryId=683364c278fd1c25a7fe6aea",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -456,12 +456,110 @@
 								},
 								{
 									"key": "minPrice",
-									"value": "10"
+									"value": "10",
+									"disabled": true
 								},
 								{
 									"key": "maxPrice",
-									"value": "30"
+									"value": "30",
+									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"10 pizzas 2\",\n    \"price\": 1.99,\n    \"description\": \"Yahhoo!\",\n    \"isCompleted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
 							]
 						}
 					},
