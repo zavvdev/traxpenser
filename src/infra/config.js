@@ -16,6 +16,10 @@ export var MESSAGES = {
   notFound: "not_found",
   created: "created",
   alreadyExists: "already_exists",
+  categoryNotFound: "category_not_found",
+  budgetLimitExceeded: "budget_limit_exceeded",
+  categodyRequired: "category_required",
+  invalidRequest: "invalid_request",
 };
 
 export var MESSAGES_LIST = Object.values(MESSAGES);
@@ -23,8 +27,12 @@ export var MESSAGES_LIST = Object.values(MESSAGES);
 export var VALIDATION_MESSAGES = {
   required: "required",
   typeString: "type_string",
+  typeNumber: "type_number",
+  typeBoolean: "type_boolean",
   minLength: "min_length",
   invalid: "invalid",
+  min: "min",
+  max: "max",
 };
 
 export var STATUS_BY_MESSAGE = {
@@ -36,4 +44,8 @@ export var STATUS_BY_MESSAGE = {
   [MESSAGES.notFound]: 404,
   [MESSAGES.created]: 201,
   [MESSAGES.alreadyExists]: 409,
+  [MESSAGES.categoryNotFound]: 404,
+  [MESSAGES.budgetLimitExceeded]: 400,
+  [MESSAGES.categodyRequired]: 400,
+  [MESSAGES.invalidRequest]: 400,
 };

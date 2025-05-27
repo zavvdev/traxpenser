@@ -26,7 +26,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"musk\",\n    \"password\": \"Qq!123456\"\n}",
+							"raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,7 +250,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/6833632232fb3f2369deee97",
+							"raw": "{{API_URL}}/api/v1/categories/683364c278fd1c25a7fe6aea",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -258,7 +258,7 @@
 								"api",
 								"v1",
 								"categories",
-								"6833632232fb3f2369deee97"
+								"683364c278fd1c25a7fe6aea"
 							]
 						}
 					},
@@ -317,7 +317,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"My new room\",\n    \"budgetLimit\": null\n}",
+							"raw": "{\n    \"name\": \"My new room\",\n    \"budgetLimit\": 1000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +325,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/68336ed25de7f9693ac68f35",
+							"raw": "{{API_URL}}/api/v1/categories/68337daffbb809ae91b99982",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -333,7 +333,7 @@
 								"api",
 								"v1",
 								"categories",
-								"68336ed25de7f9693ac68f35"
+								"68337daffbb809ae91b99982"
 							]
 						}
 					},
@@ -354,7 +354,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/68336fdbe857bead5eff33a2",
+							"raw": "{{API_URL}}/api/v1/categories/68337daffbb809ae91b99982",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -362,7 +362,204 @@
 								"api",
 								"v1",
 								"categories",
-								"68336fdbe857bead5eff33a2"
+								"68337daffbb809ae91b99982"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expenses",
+			"item": [
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryId\": \"683364c278fd1c25a7fe6aea\",\n    \"name\": \"Pizza 2\",\n    \"price\": 15.99,\n    \"isCompleted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expenses",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses?categoryId=683364c278fd1c25a7fe6aea",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "683364c278fd1c25a7fe6aea"
+								},
+								{
+									"key": "isCompleted",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "cream",
+									"disabled": true
+								},
+								{
+									"key": "minPrice",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "30",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"10 pizzas 2\",\n    \"price\": 1.99,\n    \"description\": \"Yahhoo!\",\n    \"isCompleted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expense",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"68361516c26e17307714273c"
 							]
 						}
 					},

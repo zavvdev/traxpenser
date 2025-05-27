@@ -3,12 +3,15 @@ import "dotenv/config";
 
 import { authController } from "./app/controllers/auth.controller.js";
 import { categoriesController } from "./app/controllers/categories.controller.js";
+import { expensesController } from "./app/controllers/expenses.controller.js";
 import { settingsController } from "./app/controllers/settings.controller.js";
 import { usersController } from "./app/controllers/users.controller.js";
 import { auth, validBody } from "./app/middlewares.js";
 import { loginRequestSchema } from "./app/requests/auth/login.request.js";
 import { registerRequestSchema } from "./app/requests/auth/register.request.js";
 import { mutateCategoryRequestSchema } from "./app/requests/categories/mutateCategory.request.js";
+import { createExpenseRequestSchema } from "./app/requests/expenses/createExpense.request.js";
+import { updateExpenseRequestSchema } from "./app/requests/expenses/updateExpense.request.js";
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
 import { withMiddlewares } from "./infra/middleware.js";
@@ -80,6 +83,36 @@ import { withMiddlewares } from "./infra/middleware.js";
   app.delete(
     api("/categories/:id"),
     withMiddlewares(auth)(categoriesController.deleteOne),
+  );
+
+  // Expenses
+
+  app.post(
+    api("/expenses"),
+    withMiddlewares(
+      auth,
+      validBody(createExpenseRequestSchema),
+    )(expensesController.createOne),
+  );
+
+  app.get(api("/expenses"), withMiddlewares(auth)(expensesController.getAll));
+
+  app.get(
+    api("/expenses/:id"),
+    withMiddlewares(auth)(expensesController.getOne),
+  );
+
+  app.put(
+    api("/expenses/:id"),
+    withMiddlewares(
+      auth,
+      validBody(updateExpenseRequestSchema),
+    )(expensesController.updateOne),
+  );
+
+  app.delete(
+    api("/expenses/:id"),
+    withMiddlewares(auth)(expensesController.deleteOne),
   );
 
   // ==========

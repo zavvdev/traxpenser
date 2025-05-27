@@ -2,7 +2,7 @@ import { AUTH_HEADER, MESSAGES } from "../infra/config.js";
 import { AppError } from "../infra/errors.js";
 import { RevokedToken } from "./models/RevokedToken.js";
 import { Session } from "./models/Session.js";
-import { User } from "./models/User.js";
+import { Settings } from "./models/Settings.js";
 
 export async function auth(req) {
   try {
@@ -27,9 +27,23 @@ export async function auth(req) {
       throw new Error();
     }
 
+    var settings = await Settings.findOne({ userId: session.userId }).populate(
+      "userId",
+    );
+
+    if (!settings) {
+      throw new Error();
+    }
+
     return {
       name: "auth",
-      data: await User.findById(session.userId),
+      data: {
+        id: settings.userId._id,
+        username: settings.userId.username,
+        settings: {
+          currency: settings.currency,
+        },
+      },
     };
   } catch {
     throw new AppError(MESSAGES.unauthorized);
