@@ -19,6 +19,7 @@ export var MESSAGES = {
   categoryNotFound: "category_not_found",
   budgetLimitExceeded: "budget_limit_exceeded",
   categodyRequired: "category_required",
+  invalidRequest: "invalid_request",
 };
 
 export var MESSAGES_LIST = Object.values(MESSAGES);
@@ -46,4 +47,5 @@ export var STATUS_BY_MESSAGE = {
   [MESSAGES.categoryNotFound]: 404,
   [MESSAGES.budgetLimitExceeded]: 400,
   [MESSAGES.categodyRequired]: 400,
+  [MESSAGES.invalidRequest]: 400,
 };

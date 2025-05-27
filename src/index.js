@@ -10,7 +10,8 @@ import { auth, validBody } from "./app/middlewares.js";
 import { loginRequestSchema } from "./app/requests/auth/login.request.js";
 import { registerRequestSchema } from "./app/requests/auth/register.request.js";
 import { mutateCategoryRequestSchema } from "./app/requests/categories/mutateCategory.request.js";
-import { mutateExpenseRequestSchema } from "./app/requests/expenses/mutateExpense.request.js";
+import { createExpenseRequestSchema } from "./app/requests/expenses/createExpense.request.js";
+import { updateExpenseRequestSchema } from "./app/requests/expenses/updateExpense.request.js";
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
 import { withMiddlewares } from "./infra/middleware.js";
@@ -90,11 +91,29 @@ import { withMiddlewares } from "./infra/middleware.js";
     api("/expenses"),
     withMiddlewares(
       auth,
-      validBody(mutateExpenseRequestSchema),
+      validBody(createExpenseRequestSchema),
     )(expensesController.createOne),
   );
 
   app.get(api("/expenses"), withMiddlewares(auth)(expensesController.getAll));
+
+  app.get(
+    api("/expenses/:id"),
+    withMiddlewares(auth)(expensesController.getOne),
+  );
+
+  app.put(
+    api("/expenses/:id"),
+    withMiddlewares(
+      auth,
+      validBody(updateExpenseRequestSchema),
+    )(expensesController.updateOne),
+  );
+
+  app.delete(
+    api("/expenses/:id"),
+    withMiddlewares(auth)(expensesController.deleteOne),
+  );
 
   // ==========
 

@@ -3,7 +3,6 @@ import { AppError } from "../infra/errors.js";
 import { RevokedToken } from "./models/RevokedToken.js";
 import { Session } from "./models/Session.js";
 import { Settings } from "./models/Settings.js";
-import { User } from "./models/User.js";
 
 export async function auth(req) {
   try {
