@@ -1,6 +1,7 @@
 import { MESSAGES } from "../../infra/config.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
+import { categoriesService } from "../services/categories.service.js";
 
 async function getAll({ res, middleware }) {
   var { auth } = middleware;
@@ -39,17 +40,35 @@ async function updateOne({ req, res, middleware }) {
   var { id } = req.params;
   var { name, budgetLimit, allowOverBudget } = validBody;
 
-  var category = await Category.findOneAndUpdate(
-    { _id: id, user: auth.id },
-    { name, budgetLimit: budgetLimit || null, allowOverBudget },
-    { new: true },
-  );
+  var category = await Category.findOne({ _id: id, user: auth.id });
 
   if (!category) {
     return errorResponse(res)(null, MESSAGES.notFound);
   }
 
-  return successResponse(res)(category, MESSAGES.ok);
+  var nextCategoryData = {
+    name,
+    budgetLimit: budgetLimit ?? category.budgetLimit,
+    allowOverBudget: allowOverBudget ?? category.allowOverBudget,
+  };
+
+  if (
+    !(await categoriesService.canUpdateBudgetLimit(
+      auth.id,
+      category._id,
+      nextCategoryData,
+    ))
+  ) {
+    return errorResponse(res)(null, MESSAGES.budgetLimitExceeded);
+  }
+
+  var newCategory = await Category.updateOne(
+    { _id: id, user: auth.id },
+    { name, budgetLimit: budgetLimit || null, allowOverBudget },
+    { new: true },
+  );
+
+  return successResponse(res)(newCategory, MESSAGES.ok);
 }
 
 async function deleteOne({ req, res, middleware }) {
