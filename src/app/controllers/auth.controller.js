@@ -4,19 +4,46 @@ import { encryptionService } from "../../infra/services/encryption.service.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { RevokedToken } from "../models/RevokedToken.js";
 import { Session } from "../models/Session.js";
+import { DEFAULT_SETTINGS, Settings } from "../models/Settings.js";
 import { User } from "../models/User.js";
 
 async function register({ res, middleware }) {
-  var { username, password } = middleware.validBody;
+  var session = await db.startSession();
 
-  var hashedPassword = await encryptionService.hash(password);
+  try {
+    session.startTransaction();
 
-  await User.create({
-    username,
-    password: hashedPassword,
-  });
+    var { username, password } = middleware.validBody;
+    var hashedPassword = await encryptionService.hash(password);
 
-  return successResponse(res)(null, MESSAGES.ok);
+    var { 0: user } = await User.create(
+      [
+        {
+          username,
+          password: hashedPassword,
+        },
+      ],
+      { session },
+    );
+
+    await Settings.create(
+      [
+        {
+          user: user._id,
+          currency: DEFAULT_SETTINGS.currency,
+        },
+      ],
+      { session },
+    );
+
+    await session.commitTransaction();
+    return successResponse(res)(null, MESSAGES.ok);
+  } catch (e) {
+    await session.abortTransaction();
+    throw e;
+  } finally {
+    session.endSession();
+  }
 }
 
 async function login({ res, middleware }) {
@@ -34,7 +61,7 @@ async function login({ res, middleware }) {
   var token = encryptionService.getUniqueId();
 
   await Session.create({
-    userId: user._id,
+    user: user._id,
     token,
   });
 

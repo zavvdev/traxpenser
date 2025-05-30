@@ -6,13 +6,13 @@ export var Expense = db.model(
   "Expense",
   new Schema(
     {
-      userId: {
+      user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
         select: false,
       },
-      categoryId: {
+      category: {
         type: Schema.Types.ObjectId,
         ref: "Category",
         required: true,

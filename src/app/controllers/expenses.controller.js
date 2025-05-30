@@ -15,8 +15,8 @@ async function updateOne({ req, res, middleware }) {
 
   var expense = await Expense.findOne({
     _id: id,
-    userId: auth.id,
-  }).populate("categoryId");
+    user: auth.id,
+  }).populate("category");
 
   if (!expense) {
     return errorResponse(res)(null, MESSAGES.notFound);
@@ -25,7 +25,7 @@ async function updateOne({ req, res, middleware }) {
   if (
     !(await expensesService.canAddExpense(
       auth.id,
-      expense.categoryId,
+      expense.category,
       validBody.price,
     ))
   ) {
@@ -33,7 +33,7 @@ async function updateOne({ req, res, middleware }) {
   }
 
   await Expense.updateOne(
-    { _id: id, userId: auth.id, categoryId: expense.categoryId._id },
+    { _id: id, user: auth.id, category: expense.category._id },
     validBody,
     { new: true },
   );
@@ -44,15 +44,15 @@ async function updateOne({ req, res, middleware }) {
 async function createOne({ res, middleware }) {
   var { auth, validBody } = middleware;
   var { categoryId, name, description, price, isCompleted } = validBody;
-  var category = await Category.findOne({ _id: categoryId, userId: auth.id });
+  var category = await Category.findOne({ _id: categoryId, user: auth.id });
 
   if (!category) {
     return errorResponse(res)(null, MESSAGES.categoryNotFound);
   }
 
   var newExpense = {
-    userId: auth.id,
-    categoryId,
+    user: auth.id,
+    category: categoryId,
     name,
     description,
     price,
@@ -82,8 +82,8 @@ async function getAll({ req, res, middleware }) {
   var expenses = await Expense.find(
     R.omitBy(
       {
-        userId: auth.id,
-        categoryId,
+        user: auth.id,
+        category: categoryId,
         isCompleted:
           isCompleted !== undefined ? isCompleted === "true" : undefined,
         name: {
@@ -97,7 +97,7 @@ async function getAll({ req, res, middleware }) {
       },
       R.isNullish,
     ),
-  ).populate("categoryId");
+  ).populate("category");
 
   return successResponse(res)(expenses, MESSAGES.ok);
 }
@@ -106,8 +106,8 @@ async function getOne({ req, res, middleware }) {
   var { auth } = middleware;
   var { id } = req.params;
 
-  var expense = await Expense.findOne({ _id: id, userId: auth.id }).populate(
-    "categoryId",
+  var expense = await Expense.findOne({ _id: id, user: auth.id }).populate(
+    "category",
   );
 
   if (!expense) {
@@ -121,7 +121,7 @@ async function deleteOne({ req, res, middleware }) {
   var { auth } = middleware;
   var { id } = req.params;
 
-  var expense = await Expense.findOneAndDelete({ _id: id, userId: auth.id });
+  var expense = await Expense.findOneAndDelete({ _id: id, user: auth.id });
 
   if (!expense) {
     return errorResponse(res)(null, MESSAGES.notFound);

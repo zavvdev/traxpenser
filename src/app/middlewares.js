@@ -27,8 +27,8 @@ export async function auth(req) {
       throw new Error();
     }
 
-    var settings = await Settings.findOne({ userId: session.userId }).populate(
-      "userId",
+    var settings = await Settings.findOne({ user: session.user }).populate(
+      "user",
     );
 
     if (!settings) {
@@ -38,14 +38,15 @@ export async function auth(req) {
     return {
       name: "auth",
       data: {
-        id: settings.userId._id,
-        username: settings.userId.username,
+        id: settings.user._id,
+        username: settings.user.username,
         settings: {
           currency: settings.currency,
         },
       },
     };
-  } catch {
+  } catch (e) {
+    console.error("Authentication error:", e);
     throw new AppError(MESSAGES.unauthorized);
   }
 }

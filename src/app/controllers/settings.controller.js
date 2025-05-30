@@ -1,11 +1,11 @@
 import { MESSAGES } from "../../infra/config.js";
 import { successResponse } from "../../infra/utilities.js";
-import { DEFAULT_SETTINGS, Settings } from "../models/Settings.js";
+import { Settings } from "../models/Settings.js";
 
 async function get({ res, middleware }) {
   var { auth } = middleware;
-  var settings = await Settings.findOne({ userId: auth.id }).select("-_id");
-  return successResponse(res)(settings || DEFAULT_SETTINGS, MESSAGES.ok);
+  var settings = await Settings.findOne({ user: auth.id }).select("-_id");
+  return successResponse(res)(settings, MESSAGES.ok);
 }
 
 async function update({ res, middleware }) {
@@ -14,7 +14,7 @@ async function update({ res, middleware }) {
   var { currency } = validBody;
 
   var settings = await Settings.findOneAndUpdate(
-    { userId: auth.id },
+    { user: auth.id },
     { currency },
     { new: true, upsert: true },
   ).select("-_id");
