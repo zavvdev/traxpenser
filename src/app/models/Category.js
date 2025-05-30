@@ -4,7 +4,7 @@ var { Schema } = db;
 
 var schema = new Schema(
   {
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

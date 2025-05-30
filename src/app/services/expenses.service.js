@@ -9,8 +9,8 @@ async function canAddExpense(userId, category, newExpensePrice) {
   var currentPrice = await Expense.aggregate([
     {
       $match: {
-        userId: userId,
-        categoryId: category._id,
+        user: userId,
+        category: category._id,
       },
     },
     {

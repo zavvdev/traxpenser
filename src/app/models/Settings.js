@@ -23,7 +23,7 @@ export var Settings = db.model(
         enum: Object.values(CURRENCY),
         required: true,
       },
-      userId: {
+      user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
