@@ -69,7 +69,7 @@ async function updateOne({ req, res, middleware }) {
     return errorResponse(res)(null, MESSAGES.notFound);
   }
 
-  var nextCategoryData = {
+  var categoryNewData = {
     name,
     budgetLimit: budgetLimit ?? category.budgetLimit,
     allowOverBudget: allowOverBudget ?? category.allowOverBudget,
@@ -79,7 +79,7 @@ async function updateOne({ req, res, middleware }) {
     !(await categoriesService.canUpdateBudgetLimit(
       auth.id,
       category._id,
-      nextCategoryData,
+      categoryNewData,
     ))
   ) {
     return errorResponse(res)(null, MESSAGES.budgetLimitExceeded);
@@ -87,7 +87,7 @@ async function updateOne({ req, res, middleware }) {
 
   var newCategory = await Category.updateOne(
     { _id: id, user: auth.id },
-    { name, budgetLimit: budgetLimit || null, allowOverBudget },
+    categoryNewData,
     { new: true },
   );
 
@@ -107,10 +107,29 @@ async function deleteOne({ req, res, middleware }) {
   return successResponse(res)(null, MESSAGES.ok);
 }
 
+async function getAvailableBudget({ req, res, middleware }) {
+  var { auth } = middleware;
+  var { id } = req.params;
+
+  var category = await Category.findOne({ _id: id, user: auth.id });
+
+  if (!category) {
+    return errorResponse(res)(null, MESSAGES.categoryNotFound);
+  }
+
+  var availableBudget = await categoriesService.calculateAvailableBudget(
+    auth.id,
+    category,
+  );
+
+  return successResponse(res)(availableBudget, MESSAGES.ok);
+}
+
 export var categoriesController = {
   getAll,
   getOne,
   createOne,
   updateOne,
   deleteOne,
+  getAvailableBudget,
 };

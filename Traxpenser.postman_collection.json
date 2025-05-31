@@ -229,9 +229,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/6839fc755403c6bd726d3eeb",
+              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "categories", "6839fc755403c6bd726d3eeb"]
+              "path": ["api", "v1", "categories", "683ac9aea16ddccfe98de6b2"]
             }
           },
           "response": []
@@ -252,7 +252,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"June 2025\"\n}",
+              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 1000\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -283,7 +283,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 500,\n    \"allowOverBudget\": true\n}",
+              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 100,\n    \"allowOverBudget\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -291,9 +291,9 @@
               }
             },
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/683abeee0ade3dc97dce40e5",
+              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "categories", "683abeee0ade3dc97dce40e5"]
+              "path": ["api", "v1", "categories", "683ac9aea16ddccfe98de6b2"]
             }
           },
           "response": []
@@ -313,9 +313,37 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/6839fba9ff4d9151b6f965d1",
+              "raw": "{{API_URL}}/api/v1/categories/683ac991a16ddccfe98de6a7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "categories", "6839fba9ff4d9151b6f965d1"]
+              "path": ["api", "v1", "categories", "683ac991a16ddccfe98de6a7"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Available Budget",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2/available-budget",
+              "host": ["{{API_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "categories",
+                "683ac9aea16ddccfe98de6b2",
+                "available-budget"
+              ]
             }
           },
           "response": []
@@ -346,7 +374,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"categoryId\": \"6839fc755403c6bd726d3eeb\",\n    \"name\": \"Joice\",\n    \"price\": 100,\n    \"isCompleted\": false\n}",
+              "raw": "{\n    \"categoryId\": \"683ac9aea16ddccfe98de6b2\",\n    \"name\": \"Product B\",\n    \"price\": 450.99,\n    \"isCompleted\": false\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -376,7 +404,7 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses?categoryId=6839fc755403c6bd726d3eeb",
+              "raw": "{{API_URL}}/api/v1/expenses?categoryId=683ac9aea16ddccfe98de6b2",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "expenses"],
               "query": [
@@ -402,7 +430,7 @@
                 },
                 {
                   "key": "categoryId",
-                  "value": "6839fc755403c6bd726d3eeb"
+                  "value": "683ac9aea16ddccfe98de6b2"
                 }
               ]
             }

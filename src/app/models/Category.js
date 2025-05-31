@@ -29,10 +29,16 @@ var schema = new Schema(
   },
 );
 
+function isLimitless({ budgetLimit, allowOverBudget }) {
+  var noLimit = budgetLimit === null || budgetLimit === undefined;
+  var overBudget = allowOverBudget === true;
+  return noLimit || overBudget;
+}
+
 schema.methods.isLimitless = function () {
-  var noLimit = this.budgetLimit === null || this.budgetLimit === undefined;
-  var allowOverBudget = this.allowOverBudget === true;
-  return noLimit || allowOverBudget;
+  return isLimitless(this);
 };
+
+schema.statics.isLimitless = (category) => isLimitless(category);
 
 export var Category = db.model("Category", schema);

@@ -87,6 +87,11 @@ import { withMiddlewares } from "./infra/middleware.js";
     withMiddlewares(auth)(categoriesController.deleteOne),
   );
 
+  app.get(
+    api("/categories/:id/available-budget"),
+    withMiddlewares(auth)(categoriesController.getAvailableBudget),
+  );
+
   // Expenses
 
   app.post(
