@@ -1,622 +1,539 @@
 {
-	"info": {
-		"_postman_id": "e5856b8e-3af3-47eb-a308-ea3238660132",
-		"name": "Traxpenser",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "13686008"
-	},
-	"item": [
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/auth/register",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var response = pm.response.json();",
-									"var token = response?.data?.token;",
-									"",
-									"if (token) {",
-									"    pm.environment.set(\"AUTH_TOKEN\", response?.data?.token);",
-									"}"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}"
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/auth/login",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/auth/logout",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"logout"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Settings",
-			"item": [
-				{
-					"name": "Settings",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/settings",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"settings"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Settings",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"currency\": \"USD\"\n}"
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/settings",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"settings"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Categories",
-			"item": [
-				{
-					"name": "Categories",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/categories?name=aug&minBudgetLimit=100&maxBudgetLimit=2000&allowOverBudget=true",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "aug"
-								},
-								{
-									"key": "minBudgetLimit",
-									"value": "100"
-								},
-								{
-									"key": "maxBudgetLimit",
-									"value": "2000"
-								},
-								{
-									"key": "allowOverBudget",
-									"value": "true"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Category",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/6839fc755403c6bd726d3eeb",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"6839fc755403c6bd726d3eeb"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Category",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"June 2025\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/categories",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Category",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 500,\n    \"allowOverBudget\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/683abeee0ade3dc97dce40e5",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"683abeee0ade3dc97dce40e5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Category",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/6839fba9ff4d9151b6f965d1",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"6839fba9ff4d9151b6f965d1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Expenses",
-			"item": [
-				{
-					"name": "Expense",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"categoryId\": \"6839fc755403c6bd726d3eeb\",\n    \"name\": \"Joice\",\n    \"price\": 100,\n    \"isCompleted\": false\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"expenses"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Expenses",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses?categoryId=6839fc755403c6bd726d3eeb",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"expenses"
-							],
-							"query": [
-								{
-									"key": "isCompleted",
-									"value": "true",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "cream",
-									"disabled": true
-								},
-								{
-									"key": "minPrice",
-									"value": "10",
-									"disabled": true
-								},
-								{
-									"key": "maxPrice",
-									"value": "30",
-									"disabled": true
-								},
-								{
-									"key": "categoryId",
-									"value": "6839fc755403c6bd726d3eeb"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Expense",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"expenses",
-								"6839fcaa5403c6bd726d3f06"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Expense",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"10 pizzas 2\",\n    \"price\": 1.99,\n    \"description\": \"Yahhoo!\",\n    \"isCompleted\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/683a01c3f12a8c39c62af9d6",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"expenses",
-								"683a01c3f12a8c39c62af9d6"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Expense",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{AUTH_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
-							"host": [
-								"{{API_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"expenses",
-								"6839fcaa5403c6bd726d3f06"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Me",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "{{AUTH_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{API_URL}}/api/v1/me",
-					"host": [
-						"{{API_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"me"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "e5856b8e-3af3-47eb-a308-ea3238660132",
+    "name": "Traxpenser",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "13686008"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/auth/register",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var response = pm.response.json();",
+                  "var token = response?.data?.token;",
+                  "",
+                  "if (token) {",
+                  "    pm.environment.set(\"AUTH_TOKEN\", response?.data?.token);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/auth/login",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/auth/logout",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "auth", "logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Settings",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/settings",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "settings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Settings",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/settings",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "settings"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Categories",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories?name=aug&minBudgetLimit=100&maxBudgetLimit=2000&allowOverBudget=true",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "categories"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "aug"
+                },
+                {
+                  "key": "minBudgetLimit",
+                  "value": "100"
+                },
+                {
+                  "key": "maxBudgetLimit",
+                  "value": "2000"
+                },
+                {
+                  "key": "allowOverBudget",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Category",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories/6839fc755403c6bd726d3eeb",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "categories", "6839fc755403c6bd726d3eeb"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Category",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"June 2025\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Category",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 500,\n    \"allowOverBudget\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories/683abeee0ade3dc97dce40e5",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "categories", "683abeee0ade3dc97dce40e5"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Category",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/categories/6839fba9ff4d9151b6f965d1",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "categories", "6839fba9ff4d9151b6f965d1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "Expense",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"categoryId\": \"6839fc755403c6bd726d3eeb\",\n    \"name\": \"Joice\",\n    \"price\": 100,\n    \"isCompleted\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expenses",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses?categoryId=6839fc755403c6bd726d3eeb",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses"],
+              "query": [
+                {
+                  "key": "isCompleted",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "cream",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "30",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "6839fc755403c6bd726d3eeb"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expense",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses", "6839fcaa5403c6bd726d3f06"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expense",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"10 pizzas 2\",\n    \"price\": 1.99,\n    \"description\": \"Yahhoo!\",\n    \"isCompleted\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses/683a01c3f12a8c39c62af9d6",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses", "683a01c3f12a8c39c62af9d6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Expense",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses", "6839fcaa5403c6bd726d3f06"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Me",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{API_URL}}/api/v1/me",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "v1", "me"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{API_URL}}/api/v1/me",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "v1", "me"]
+        }
+      },
+      "response": []
+    }
+  ]
 }
