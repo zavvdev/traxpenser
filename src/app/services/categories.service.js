@@ -19,7 +19,7 @@ async function calculateAvailableBudget(userId, category) {
 
   return {
     isLimitless: category.isLimitless(),
-    availableBudget: new Decimal(category.budgetLimit.toString()).minus(
+    availableBudget: new Decimal(category.getBudgetLimit()).minus(
       new Decimal(currentPrice),
     ),
   };

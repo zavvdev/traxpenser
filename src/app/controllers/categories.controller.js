@@ -71,7 +71,7 @@ async function updateOne({ req, res, middleware }) {
 
   var categoryNewData = {
     name,
-    budgetLimit: budgetLimit ?? category.budgetLimit,
+    budgetLimit: budgetLimit !== undefined ? budgetLimit : category.budgetLimit,
     allowOverBudget: allowOverBudget ?? category.allowOverBudget,
   };
 

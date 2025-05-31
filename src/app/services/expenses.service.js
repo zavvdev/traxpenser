@@ -28,9 +28,7 @@ async function canAddExpense(userId, category, newExpensePrice) {
   var currentPrice = await sumExpenses(userId, category._id);
   var nextPrice = new Decimal(currentPrice).add(new Decimal(newExpensePrice));
 
-  return new Decimal(nextPrice).lessThanOrEqualTo(
-    category.budgetLimit.toString(),
-  );
+  return new Decimal(nextPrice).lessThanOrEqualTo(category.getBudgetLimit());
 }
 
 export var expensesService = {

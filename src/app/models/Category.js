@@ -41,4 +41,12 @@ schema.methods.isLimitless = function () {
 
 schema.statics.isLimitless = (category) => isLimitless(category);
 
+schema.methods.getBudgetLimit = function () {
+  var budget = this.budgetLimit;
+  if (budget) {
+    return budget.toString();
+  }
+  return "0";
+};
+
 export var Category = db.model("Category", schema);
