@@ -1,16 +1,12 @@
 import Decimal from "decimal.js";
 import { Expense } from "../models/Expense.js";
 
-async function canAddExpense(userId, category, newExpensePrice) {
-  if (category.isLimitless()) {
-    return true;
-  }
-
+async function sumExpenses(userId, categoryId) {
   var currentPrice = await Expense.aggregate([
     {
       $match: {
         user: userId,
-        category: category._id,
+        category: categoryId,
       },
     },
     {
@@ -21,14 +17,21 @@ async function canAddExpense(userId, category, newExpensePrice) {
     },
   ]);
 
-  currentPrice = currentPrice[0]?.totalPrice?.toString() || "0";
+  return currentPrice[0]?.totalPrice?.toString() || "0";
+}
+
+async function canAddExpense(userId, category, newExpensePrice) {
+  if (category.isLimitless()) {
+    return true;
+  }
+
+  var currentPrice = await sumExpenses(userId, category._id);
   var nextPrice = new Decimal(currentPrice).add(new Decimal(newExpensePrice));
 
-  return new Decimal(nextPrice).lessThanOrEqualTo(
-    category.budgetLimit.toString(),
-  );
+  return new Decimal(nextPrice).lessThanOrEqualTo(category.getBudgetLimit());
 }
 
 export var expensesService = {
+  sumExpenses,
   canAddExpense,
 };

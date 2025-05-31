@@ -1,33 +1,31 @@
 import Decimal from "decimal.js";
-import { Expense } from "../models/Expense.js";
+import { Category } from "../models/Category.js";
+import { expensesService } from "./expenses.service.js";
 
-async function canUpdateBudgetLimit(userId, categoryId, newCategory) {
-  if (newCategory.allowOverBudget) {
+async function canUpdateBudgetLimit(userId, categoryId, categoryNewData) {
+  if (Category.isLimitless(categoryNewData)) {
     return true;
   }
 
-  var currentPrice = await Expense.aggregate([
-    {
-      $match: {
-        user: userId,
-        category: categoryId,
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalPrice: { $sum: "$price" },
-      },
-    },
-  ]);
-
-  currentPrice = currentPrice[0]?.totalPrice?.toString() || "0";
+  var currentPrice = await expensesService.sumExpenses(userId, categoryId);
 
   return new Decimal(currentPrice).lessThanOrEqualTo(
-    newCategory.budgetLimit.toString(),
+    categoryNewData.budgetLimit.toString(),
   );
+}
+
+async function calculateAvailableBudget(userId, category) {
+  var currentPrice = await expensesService.sumExpenses(userId, category._id);
+
+  return {
+    isLimitless: category.isLimitless(),
+    availableBudget: new Decimal(category.getBudgetLimit()).minus(
+      new Decimal(currentPrice),
+    ),
+  };
 }
 
 export var categoriesService = {
   canUpdateBudgetLimit,
+  calculateAvailableBudget,
 };
