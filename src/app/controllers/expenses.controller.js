@@ -75,10 +75,6 @@ async function getAll({ req, res, middleware }) {
   var { auth } = middleware;
   var { categoryId, isCompleted, name, minPrice, maxPrice } = req.query;
 
-  if (!categoryId) {
-    return errorResponse(res)(null, MESSAGES.categodyRequired);
-  }
-
   var expenses = await Expense.find(
     R.omitBy(
       {

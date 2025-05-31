@@ -12,7 +12,6 @@ var schema = new Schema(
     },
     name: {
       type: String,
-      unique: true,
       required: true,
     },
     budgetLimit: {
@@ -28,6 +27,8 @@ var schema = new Schema(
     timestamps: true,
   },
 );
+
+schema.index({ user: 1, name: 1 }, { unique: true });
 
 function isLimitless({ budgetLimit, allowOverBudget }) {
   var noLimit = budgetLimit === null || budgetLimit === undefined;
