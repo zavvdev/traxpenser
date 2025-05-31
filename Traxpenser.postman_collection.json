@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "e5856b8e-3af3-47eb-a308-ea3238660132",
-		"name": "Traxpencer",
+		"name": "Traxpenser",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "13686008"
 	},
@@ -81,7 +81,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"musk\",\n    \"password\": \"Qq!123456\"\n}"
+							"raw": "{\n    \"username\": \"zavdev\",\n    \"password\": \"Qq!123456\"\n}"
 						},
 						"url": {
 							"raw": "{{API_URL}}/api/v1/auth/login",
@@ -186,7 +186,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"currency\": \"PLN\"\n}"
+							"raw": "{\n    \"currency\": \"USD\"\n}"
 						},
 						"url": {
 							"raw": "{{API_URL}}/api/v1/settings",
@@ -222,7 +222,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories",
+							"raw": "{{API_URL}}/api/v1/categories?name=aug&minBudgetLimit=100&maxBudgetLimit=2000&allowOverBudget=true",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -230,6 +230,24 @@
 								"api",
 								"v1",
 								"categories"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "aug"
+								},
+								{
+									"key": "minBudgetLimit",
+									"value": "100"
+								},
+								{
+									"key": "maxBudgetLimit",
+									"value": "2000"
+								},
+								{
+									"key": "allowOverBudget",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -250,7 +268,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/683364c278fd1c25a7fe6aea",
+							"raw": "{{API_URL}}/api/v1/categories/6839fc755403c6bd726d3eeb",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -258,7 +276,7 @@
 								"api",
 								"v1",
 								"categories",
-								"683364c278fd1c25a7fe6aea"
+								"6839fc755403c6bd726d3eeb"
 							]
 						}
 					},
@@ -280,7 +298,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"August 2025\"\n}",
+							"raw": "{\n    \"name\": \"June 2025\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,7 +335,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"My new room\",\n    \"budgetLimit\": 1000\n}",
+							"raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 500,\n    \"allowOverBudget\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +343,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/68337daffbb809ae91b99982",
+							"raw": "{{API_URL}}/api/v1/categories/683abeee0ade3dc97dce40e5",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -333,7 +351,7 @@
 								"api",
 								"v1",
 								"categories",
-								"68337daffbb809ae91b99982"
+								"683abeee0ade3dc97dce40e5"
 							]
 						}
 					},
@@ -354,7 +372,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/categories/68337daffbb809ae91b99982",
+							"raw": "{{API_URL}}/api/v1/categories/6839fba9ff4d9151b6f965d1",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -362,7 +380,7 @@
 								"api",
 								"v1",
 								"categories",
-								"68337daffbb809ae91b99982"
+								"6839fba9ff4d9151b6f965d1"
 							]
 						}
 					},
@@ -394,7 +412,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryId\": \"683364c278fd1c25a7fe6aea\",\n    \"name\": \"Pizza 2\",\n    \"price\": 15.99,\n    \"isCompleted\": true\n}",
+							"raw": "{\n    \"categoryId\": \"6839fc755403c6bd726d3eeb\",\n    \"name\": \"Joice\",\n    \"price\": 100,\n    \"isCompleted\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -430,7 +448,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses?categoryId=683364c278fd1c25a7fe6aea",
+							"raw": "{{API_URL}}/api/v1/expenses?categoryId=6839fc755403c6bd726d3eeb",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -440,10 +458,6 @@
 								"expenses"
 							],
 							"query": [
-								{
-									"key": "categoryId",
-									"value": "683364c278fd1c25a7fe6aea"
-								},
 								{
 									"key": "isCompleted",
 									"value": "true",
@@ -463,6 +477,10 @@
 									"key": "maxPrice",
 									"value": "30",
 									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "6839fc755403c6bd726d3eeb"
 								}
 							]
 						}
@@ -484,7 +502,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -492,7 +510,7 @@
 								"api",
 								"v1",
 								"expenses",
-								"68361516c26e17307714273c"
+								"6839fcaa5403c6bd726d3f06"
 							]
 						}
 					},
@@ -522,7 +540,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"raw": "{{API_URL}}/api/v1/expenses/683a01c3f12a8c39c62af9d6",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -530,7 +548,7 @@
 								"api",
 								"v1",
 								"expenses",
-								"68361516c26e17307714273c"
+								"683a01c3f12a8c39c62af9d6"
 							]
 						}
 					},
@@ -551,7 +569,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/api/v1/expenses/68361516c26e17307714273c",
+							"raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
 							"host": [
 								"{{API_URL}}"
 							],
@@ -559,7 +577,7 @@
 								"api",
 								"v1",
 								"expenses",
-								"68361516c26e17307714273c"
+								"6839fcaa5403c6bd726d3f06"
 							]
 						}
 					},

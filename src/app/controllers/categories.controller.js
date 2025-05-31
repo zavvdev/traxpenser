@@ -1,11 +1,34 @@
+import * as R from "remeda";
 import { MESSAGES } from "../../infra/config.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { categoriesService } from "../services/categories.service.js";
 
-async function getAll({ res, middleware }) {
+async function getAll({ req, res, middleware }) {
   var { auth } = middleware;
-  var categories = await Category.find({ user: auth.id });
+  var { name, minBudgetLimit, maxBudgetLimit, allowOverBudget } = req.query;
+
+  var categories = await Category.find(
+    R.omitBy(
+      {
+        user: auth.id,
+        name: {
+          $regex: name || "",
+          $options: "i",
+        },
+        budgetLimit: {
+          $gte: minBudgetLimit || 0,
+          $lte: maxBudgetLimit || Number.MAX_SAFE_INTEGER,
+        },
+        allowOverBudget:
+          allowOverBudget !== undefined
+            ? allowOverBudget === "true"
+            : undefined,
+      },
+      R.isNullish,
+    ),
+  );
+
   return successResponse(res)(categories, MESSAGES.ok);
 }
 
