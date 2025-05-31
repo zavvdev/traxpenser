@@ -37,12 +37,14 @@ async function register({ res, middleware }) {
     );
 
     await session.commitTransaction();
+    session.endSession();
+
     return successResponse(res)(null, MESSAGES.ok);
   } catch (e) {
     await session.abortTransaction();
-    throw e;
-  } finally {
     session.endSession();
+
+    throw e;
   }
 }
 
@@ -85,15 +87,17 @@ async function logout({ req, res }) {
       { session },
     );
 
-    await Session.deleteOne({ token }).session(session);
+    await Session.deleteOne({ token }, { session });
 
     await session.commitTransaction();
+    session.endSession();
+
     return successResponse(res)(null, MESSAGES.ok);
   } catch (e) {
     await session.abortTransaction();
-    throw e;
-  } finally {
     session.endSession();
+
+    throw e;
   }
 }
 
