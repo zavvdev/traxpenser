@@ -40,6 +40,8 @@ import { withMiddlewares } from "./infra/middleware.js";
 
   app.get(api("/me"), withMiddlewares(auth)(usersController.getMe));
 
+  app.delete(api("/me"), withMiddlewares(auth)(usersController.deleteMe));
+
   // Settings
 
   app.get(api("/settings"), withMiddlewares(auth)(settingsController.get));
