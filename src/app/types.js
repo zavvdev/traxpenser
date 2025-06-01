@@ -12,3 +12,21 @@ export var Price = t
   .min(0, T.min)
   .max(Number.MAX_SAFE_INTEGER, T.max)
   .typeError(T.typeNumber);
+
+export var DateString = t.string().test({
+  message: T.invalid,
+  test: (value) => {
+    if (!value) {
+      return true;
+    }
+
+    var isValid = new RegExp(/^\d{4}-\d{2}-\d{2}$/).test(value);
+
+    if (isValid) {
+      const month = Number.parseInt(value.split("-")[1]);
+      return month >= 1 && month <= 12;
+    }
+
+    return false;
+  },
+});

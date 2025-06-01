@@ -3,6 +3,7 @@ import { AppError } from "../infra/errors.js";
 import { RevokedToken } from "./models/RevokedToken.js";
 import { Session } from "./models/Session.js";
 import { Settings } from "./models/Settings.js";
+import { extractSchemaValidationError } from "./utilities.js";
 
 export async function auth(req) {
   try {
@@ -62,11 +63,24 @@ export function validBody(schema) {
     } catch (e) {
       throw new AppError(
         MESSAGES.validationError,
-        e.path && e.message
-          ? {
-              [e.path]: e.message,
-            }
-          : null,
+        extractSchemaValidationError(e),
+      );
+    }
+  };
+}
+
+export function validQuery(schema) {
+  return async (req) => {
+    try {
+      var data = schema.validateSync(req.query, { strict: false });
+      return {
+        name: "validQuery",
+        data,
+      };
+    } catch (e) {
+      throw new AppError(
+        MESSAGES.validationError,
+        extractSchemaValidationError(e),
       );
     }
   };
