@@ -13,6 +13,7 @@ import { getCategoriesRequestSchema } from "./app/requests/categories/getCategor
 import { mutateCategoryRequestSchema } from "./app/requests/categories/mutateCategory.request.js";
 import { createExpenseRequestSchema } from "./app/requests/expenses/createExpense.request.js";
 import { getExpensesRequestSchema } from "./app/requests/expenses/getExpenses.request.js";
+import { getTotalExpensesPriceRequestSchema } from "./app/requests/expenses/getTotalExpensesPrices.request.js";
 import { updateExpenseRequestSchema } from "./app/requests/expenses/updateExpense.request.js";
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
@@ -113,6 +114,14 @@ import { withMiddlewares } from "./infra/middleware.js";
       auth,
       validQuery(getExpensesRequestSchema),
     )(expensesController.getAll),
+  );
+
+  app.get(
+    api("/expenses/total-price"),
+    withMiddlewares(
+      auth,
+      validQuery(getTotalExpensesPriceRequestSchema),
+    )(expensesController.getTotalPrice),
   );
 
   app.get(
