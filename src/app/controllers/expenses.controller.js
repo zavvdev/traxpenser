@@ -24,10 +24,11 @@ async function updateOne({ req, res, middleware }) {
   }
 
   if (
-    !(await expensesService.canAddExpense(
+    !(await expensesService.canIncreaseExpenses(
       auth.id,
       expense.category,
       validBody.price,
+      expense._id,
     ))
   ) {
     return errorResponse(res)(null, MESSAGES.budgetLimitExceeded);
@@ -61,7 +62,11 @@ async function createOne({ res, middleware }) {
   };
 
   if (
-    !(await expensesService.canAddExpense(auth.id, category, newExpense.price))
+    !(await expensesService.canIncreaseExpenses(
+      auth.id,
+      category,
+      newExpense.price,
+    ))
   ) {
     return errorResponse(res)(null, MESSAGES.budgetLimitExceeded);
   }
