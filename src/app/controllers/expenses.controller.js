@@ -4,6 +4,7 @@ import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { Expense } from "../models/Expense.js";
 import { expensesService } from "../services/expenses.service.js";
+import { getPeriodRangeSelector } from "../utilities.js";
 
 async function updateOne({ req, res, middleware }) {
   var { auth, validBody } = middleware;
@@ -71,17 +72,18 @@ async function createOne({ res, middleware }) {
   );
 }
 
-async function getAll({ req, res, middleware }) {
-  var { auth } = middleware;
-  var { categoryId, isCompleted, name, minPrice, maxPrice } = req.query;
+async function getAll({ res, middleware }) {
+  var { auth, validQuery } = middleware;
+
+  var { categoryId, isCompleted, name, minPrice, maxPrice, minDate, maxDate } =
+    validQuery;
 
   var expenses = await Expense.find(
     R.omitBy(
       {
         user: auth.id,
         category: categoryId,
-        isCompleted:
-          isCompleted !== undefined ? isCompleted === "true" : undefined,
+        isCompleted,
         name: {
           $regex: name || "",
           $options: "i",
@@ -90,6 +92,7 @@ async function getAll({ req, res, middleware }) {
           $gte: minPrice || 0,
           $lte: maxPrice || Number.MAX_SAFE_INTEGER,
         },
+        createdAt: getPeriodRangeSelector(minDate, maxDate),
       },
       R.isNullish,
     ),

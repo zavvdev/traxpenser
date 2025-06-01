@@ -6,11 +6,13 @@ import { categoriesController } from "./app/controllers/categories.controller.js
 import { expensesController } from "./app/controllers/expenses.controller.js";
 import { settingsController } from "./app/controllers/settings.controller.js";
 import { usersController } from "./app/controllers/users.controller.js";
-import { auth, validBody } from "./app/middlewares.js";
+import { auth, validBody, validQuery } from "./app/middlewares.js";
 import { loginRequestSchema } from "./app/requests/auth/login.request.js";
 import { registerRequestSchema } from "./app/requests/auth/register.request.js";
+import { getCategoriesRequestSchema } from "./app/requests/categories/getCategories.request.js";
 import { mutateCategoryRequestSchema } from "./app/requests/categories/mutateCategory.request.js";
 import { createExpenseRequestSchema } from "./app/requests/expenses/createExpense.request.js";
+import { getExpensesRequestSchema } from "./app/requests/expenses/getExpenses.request.js";
 import { updateExpenseRequestSchema } from "./app/requests/expenses/updateExpense.request.js";
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
@@ -58,7 +60,10 @@ import { withMiddlewares } from "./infra/middleware.js";
 
   app.get(
     api("/categories"),
-    withMiddlewares(auth)(categoriesController.getAll),
+    withMiddlewares(
+      auth,
+      validQuery(getCategoriesRequestSchema),
+    )(categoriesController.getAll),
   );
 
   app.get(
@@ -102,7 +107,13 @@ import { withMiddlewares } from "./infra/middleware.js";
     )(expensesController.createOne),
   );
 
-  app.get(api("/expenses"), withMiddlewares(auth)(expensesController.getAll));
+  app.get(
+    api("/expenses"),
+    withMiddlewares(
+      auth,
+      validQuery(getExpensesRequestSchema),
+    )(expensesController.getAll),
+  );
 
   app.get(
     api("/expenses/:id"),

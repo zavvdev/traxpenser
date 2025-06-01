@@ -3,10 +3,19 @@ import { MESSAGES } from "../../infra/config.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { categoriesService } from "../services/categories.service.js";
+import { getPeriodRangeSelector } from "../utilities.js";
 
-async function getAll({ req, res, middleware }) {
-  var { auth } = middleware;
-  var { name, minBudgetLimit, maxBudgetLimit, allowOverBudget } = req.query;
+async function getAll({ res, middleware }) {
+  var { auth, validQuery } = middleware;
+
+  var {
+    name,
+    minBudgetLimit,
+    maxBudgetLimit,
+    allowOverBudget,
+    minDate,
+    maxDate,
+  } = validQuery;
 
   var categories = await Category.find(
     R.omitBy(
@@ -20,10 +29,8 @@ async function getAll({ req, res, middleware }) {
           $gte: minBudgetLimit || 0,
           $lte: maxBudgetLimit || Number.MAX_SAFE_INTEGER,
         },
-        allowOverBudget:
-          allowOverBudget !== undefined
-            ? allowOverBudget === "true"
-            : undefined,
+        allowOverBudget,
+        createdAt: getPeriodRangeSelector(minDate, maxDate),
       },
       R.isNullish,
     ),
