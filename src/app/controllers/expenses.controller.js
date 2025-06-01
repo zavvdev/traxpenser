@@ -1,9 +1,11 @@
 import * as R from "remeda";
 import { MESSAGES } from "../../infra/config.js";
+import { db } from "../../infra/database/index.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { Expense } from "../models/Expense.js";
 import { expensesService } from "../services/expenses.service.js";
+import { ObjectId } from "../types.js";
 import { getPeriodRangeSelector } from "../utilities.js";
 
 async function updateOne({ req, res, middleware }) {
@@ -134,10 +136,25 @@ async function deleteOne({ req, res, middleware }) {
   return successResponse(res)(null, MESSAGES.ok);
 }
 
+async function getTotalPrice({ res, middleware }) {
+  var { auth, validQuery } = middleware;
+  var { categoryIds, minDate, maxDate } = validQuery;
+
+  var total = await expensesService.sumExpenses({
+    userId: auth.id,
+    categoryIds: categoryIds?.map(ObjectId.fromStringId) || [],
+    minDate,
+    maxDate,
+  });
+
+  return successResponse(res)(total, MESSAGES.ok);
+}
+
 export var expensesController = {
   createOne,
   updateOne,
   getOne,
   getAll,
   deleteOne,
+  getTotalPrice,
 };

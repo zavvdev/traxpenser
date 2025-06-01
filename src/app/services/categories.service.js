@@ -7,7 +7,10 @@ async function canUpdateBudgetLimit(userId, categoryId, categoryNewData) {
     return true;
   }
 
-  var currentPrice = await expensesService.sumExpenses(userId, categoryId);
+  var currentPrice = await expensesService.sumExpenses({
+    userId,
+    categoryIds: [categoryId],
+  });
 
   return new Decimal(currentPrice).lessThanOrEqualTo(
     categoryNewData.budgetLimit.toString(),
@@ -15,7 +18,10 @@ async function canUpdateBudgetLimit(userId, categoryId, categoryNewData) {
 }
 
 async function calculateAvailableBudget(userId, category) {
-  var currentPrice = await expensesService.sumExpenses(userId, category._id);
+  var currentPrice = await expensesService.sumExpenses({
+    userId,
+    categoryIds: [category._id],
+  });
 
   return {
     isLimitless: category.isLimitless(),

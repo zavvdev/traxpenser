@@ -189,25 +189,39 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories?name=aug&minBudgetLimit=100&maxBudgetLimit=2000&allowOverBudget=true",
+              "raw": "{{API_URL}}/api/v1/categories",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "categories"],
               "query": [
                 {
                   "key": "name",
-                  "value": "aug"
+                  "value": "aug",
+                  "disabled": true
                 },
                 {
                   "key": "minBudgetLimit",
-                  "value": "100"
+                  "value": "1002",
+                  "disabled": true
                 },
                 {
                   "key": "maxBudgetLimit",
-                  "value": "2000"
+                  "value": "2000",
+                  "disabled": true
                 },
                 {
                   "key": "allowOverBudget",
-                  "value": "true"
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "minDate",
+                  "value": "2025-06-01",
+                  "disabled": true
+                },
+                {
+                  "key": "maxDate",
+                  "value": "2025-06-01",
+                  "disabled": true
                 }
               ]
             }
@@ -252,7 +266,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 1000\n}",
+              "raw": "{\n    \"name\": \"March 2025\",\n    \"budgetLimit\": 100\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -374,7 +388,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"categoryId\": \"683ac9aea16ddccfe98de6b2\",\n    \"name\": \"Product B\",\n    \"price\": 450.99,\n    \"isCompleted\": false\n}",
+              "raw": "{\n    \"categoryId\": \"683c0561f80287eefcc020bd\",\n    \"name\": \"Product A1B2\",\n    \"price\": 49.01,\n    \"isCompleted\": false\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -404,7 +418,7 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses?categoryId=683ac9aea16ddccfe98de6b2",
+              "raw": "{{API_URL}}/api/v1/expenses?categoryId=683ad8c4e97fe82147dc6866",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "expenses"],
               "query": [
@@ -429,8 +443,18 @@
                   "disabled": true
                 },
                 {
+                  "key": "minDate",
+                  "value": "2025-06-01",
+                  "disabled": true
+                },
+                {
+                  "key": "maxDate",
+                  "value": "2025-06-01",
+                  "disabled": true
+                },
+                {
                   "key": "categoryId",
-                  "value": "683ac9aea16ddccfe98de6b2"
+                  "value": "683ad8c4e97fe82147dc6866"
                 }
               ]
             }
@@ -452,9 +476,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
+              "raw": "{{API_URL}}/api/v1/expenses/683c06203f76886ad609c2f7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "expenses", "6839fcaa5403c6bd726d3f06"]
+              "path": ["api", "v1", "expenses", "683c06203f76886ad609c2f7"]
             }
           },
           "response": []
@@ -475,7 +499,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"10 pizzas 2\",\n    \"price\": 1.99,\n    \"description\": \"Yahhoo!\",\n    \"isCompleted\": true\n}",
+              "raw": "{\n    \"name\": \"Product AB\",\n    \"description\": \"\",\n    \"price\": 50.99,\n    \"isCompleted\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -483,9 +507,9 @@
               }
             },
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses/683a01c3f12a8c39c62af9d6",
+              "raw": "{{API_URL}}/api/v1/expenses/683c06203f76886ad609c2f7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "expenses", "683a01c3f12a8c39c62af9d6"]
+              "path": ["api", "v1", "expenses", "683c06203f76886ad609c2f7"]
             }
           },
           "response": []
@@ -508,6 +532,46 @@
               "raw": "{{API_URL}}/api/v1/expenses/6839fcaa5403c6bd726d3f06",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "expenses", "6839fcaa5403c6bd726d3f06"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Total Price",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/v1/expenses/total-price?categoryIds[]=683ad8c4e97fe82147dc6866&categoryIds[]=683ac9aea16ddccfe98de6b2&minDate=2025-05-31&maxDate=2025-05-31",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "v1", "expenses", "total-price"],
+              "query": [
+                {
+                  "key": "categoryIds[]",
+                  "value": "683ad8c4e97fe82147dc6866"
+                },
+                {
+                  "key": "categoryIds[]",
+                  "value": "683ac9aea16ddccfe98de6b2"
+                },
+                {
+                  "key": "minDate",
+                  "value": "2025-05-31"
+                },
+                {
+                  "key": "maxDate",
+                  "value": "2025-05-31"
+                }
+              ]
             }
           },
           "response": []

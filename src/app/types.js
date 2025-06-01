@@ -1,5 +1,6 @@
 import * as t from "yup";
 import { VALIDATION_MESSAGES as T } from "../infra/config.js";
+import { db } from "../infra/database/index.js";
 
 export var Id = t
   .string()
@@ -30,3 +31,7 @@ export var DateString = t.string().test({
     return false;
   },
 });
+
+export var ObjectId = {
+  fromStringId: (id) => new db.Types.ObjectId(`${id}`),
+};

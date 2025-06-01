@@ -1,13 +1,23 @@
 import Decimal from "decimal.js";
 import { Expense } from "../models/Expense.js";
+import { getPeriodRangeSelector } from "../utilities.js";
 
-async function sumExpenses(userId, categoryId, excludedExpenseIds = []) {
+async function sumExpenses({
+  userId,
+  categoryIds,
+  excludedExpenseIds,
+  minDate,
+  maxDate,
+}) {
   var currentPrice = await Expense.aggregate([
     {
       $match: {
         user: userId,
-        category: categoryId,
-        _id: { $nin: excludedExpenseIds },
+        category: categoryIds?.length
+          ? { $in: categoryIds }
+          : { $exists: true },
+        _id: { $nin: excludedExpenseIds || [] },
+        createdAt: getPeriodRangeSelector(minDate, maxDate),
       },
     },
     {
@@ -31,11 +41,11 @@ async function canIncreaseExpenses(
     return true;
   }
 
-  var currentPrice = await sumExpenses(
+  var currentPrice = await sumExpenses({
     userId,
-    category._id,
-    editExpenseId ? [editExpenseId] : [],
-  );
+    categoryIds: [category._id],
+    excludedExpenseIds: editExpenseId ? [editExpenseId] : [],
+  });
 
   var nextPrice = new Decimal(currentPrice).add(new Decimal(newExpensePrice));
 
