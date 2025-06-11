@@ -1,5 +1,7 @@
 export var APP_PORT = process.env.APP_PORT || 8000;
 
+export var PRICE_PRECISION = Number(process.env.PRICE_PRECISION) || 35;
+
 export var AUTH_HEADER = "authorization";
 
 export var RESPONSE_STATUS = {
@@ -20,6 +22,7 @@ export var MESSAGES = {
   budgetLimitExceeded: "budget_limit_exceeded",
   categodyRequired: "category_required",
   invalidRequest: "invalid_request",
+  unprocessableNumber: "unprocessable_number",
 };
 
 export var MESSAGES_LIST = Object.values(MESSAGES);

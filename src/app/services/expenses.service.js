@@ -1,5 +1,6 @@
-import Decimal from "decimal.js";
+import { numberService } from "../../infra/services/number.service.js";
 import { Expense } from "../models/Expense.js";
+import { Price } from "../types.js";
 import { getPeriodRangeSelector } from "../utilities.js";
 
 async function sumExpenses({
@@ -28,7 +29,7 @@ async function sumExpenses({
     },
   ]);
 
-  return currentPrice[0]?.totalPrice?.toString() || "0";
+  return Price.fromDbValue(currentPrice[0]?.totalPrice?.toString() || "0");
 }
 
 async function canIncreaseExpenses(
@@ -47,9 +48,9 @@ async function canIncreaseExpenses(
     excludedExpenseIds: editExpenseId ? [editExpenseId] : [],
   });
 
-  var nextPrice = new Decimal(currentPrice).add(new Decimal(newExpensePrice));
+  var nextPrice = numberService.sum(currentPrice, newExpensePrice);
 
-  return new Decimal(nextPrice).lessThanOrEqualTo(category.getBudgetLimit());
+  return numberService.lte(nextPrice, category.getBudgetLimit());
 }
 
 export var expensesService = {

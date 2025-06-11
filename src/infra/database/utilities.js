@@ -10,5 +10,12 @@ export function extractDatabaseError(error) {
     };
   }
 
+  if (m.includes("inexact rounding")) {
+    return {
+      message: MESSAGES.unprocessableNumber,
+      data: null,
+    };
+  }
+
   return null;
 }

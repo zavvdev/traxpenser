@@ -5,6 +5,6 @@ import { Price } from "../../types.js";
 export var updateExpenseRequestSchema = t.object({
   name: t.string().required(T.required).typeError(T.typeString),
   description: t.string().nullable(),
-  price: Price.required(T.required),
+  price: Price.schema(),
   isCompleted: t.boolean().typeError(T.typeBoolean).required(T.required),
 });

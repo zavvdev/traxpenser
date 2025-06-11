@@ -1,6 +1,5 @@
 import * as R from "remeda";
 import { MESSAGES } from "../../infra/config.js";
-import { db } from "../../infra/database/index.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { Expense } from "../models/Expense.js";

@@ -1,6 +1,13 @@
 import * as t from "yup";
-import { VALIDATION_MESSAGES as T } from "../infra/config.js";
+import {
+  MESSAGES as M,
+  PRICE_PRECISION,
+  VALIDATION_MESSAGES as T,
+} from "../infra/config.js";
 import { db } from "../infra/database/index.js";
+import { AppError } from "../infra/errors.js";
+
+var DbNumber = db.Types.Decimal128;
 
 export var Id = t
   .string()
@@ -8,11 +15,47 @@ export var Id = t
   .typeError(T.typeString)
   .required(T.required);
 
-export var Price = t
-  .number()
-  .min(0, T.min)
-  .max(Number.MAX_SAFE_INTEGER, T.max)
-  .typeError(T.typeNumber);
+export var Price = {
+  test: (value) => {
+    var normalLen = (x) => {
+      var len = x.length;
+      return x.includes(".")
+        ? len <= PRICE_PRECISION
+        : len <= PRICE_PRECISION - 1;
+    };
+    return new RegExp(/^\d+(\.\d+)?$/).test(value) && normalLen(value);
+  },
+
+  schema: (required = true) => {
+    return t
+      .string()
+      .test({
+        message: T.invalid,
+        test: (value) => {
+          if (!value && !required) {
+            return true;
+          }
+          return Price.test(value);
+        },
+      })
+      .typeError(T.typeString);
+  },
+
+  toDbValue: (value) => DbNumber.fromString(`${value}`),
+
+  /**
+   * @returns {string}
+   */
+  fromDbValue: (value) => {
+    if (value instanceof DbNumber) {
+      return value.toString();
+    }
+    if (Price.test(value)) {
+      return value;
+    }
+    throw new AppError(M.unprocessableNumber);
+  },
+};
 
 export var DateString = t.string().test({
   message: T.invalid,

@@ -1,5 +1,6 @@
-import Decimal from "decimal.js";
+import { numberService } from "../../infra/services/number.service.js";
 import { Category } from "../models/Category.js";
+import { Price } from "../types.js";
 import { expensesService } from "./expenses.service.js";
 
 async function canUpdateBudgetLimit(userId, categoryId, categoryNewData) {
@@ -12,8 +13,9 @@ async function canUpdateBudgetLimit(userId, categoryId, categoryNewData) {
     categoryIds: [categoryId],
   });
 
-  return new Decimal(currentPrice).lessThanOrEqualTo(
-    categoryNewData.budgetLimit.toString(),
+  return numberService.lte(
+    currentPrice,
+    Price.fromDbValue(categoryNewData.budgetLimit),
   );
 }
 
@@ -25,8 +27,9 @@ async function calculateAvailableBudget(userId, category) {
 
   return {
     isLimitless: category.isLimitless(),
-    availableBudget: new Decimal(category.getBudgetLimit()).minus(
-      new Decimal(currentPrice),
+    availableBudget: numberService.minus(
+      category.getBudgetLimit(),
+      currentPrice,
     ),
   };
 }

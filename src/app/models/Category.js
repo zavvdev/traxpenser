@@ -1,4 +1,5 @@
 import { db } from "../../infra/database/index.js";
+import { Price } from "../types.js";
 
 var { Schema } = db;
 
@@ -45,7 +46,7 @@ schema.statics.isLimitless = (category) => isLimitless(category);
 schema.methods.getBudgetLimit = function () {
   var budget = this.budgetLimit;
   if (budget) {
-    return budget.toString();
+    return Price.fromDbValue(budget);
   }
   return "0";
 };

@@ -6,6 +6,6 @@ export var createExpenseRequestSchema = t.object({
   categoryId: Id,
   name: t.string().required(T.required).typeError(T.typeString),
   description: t.string().nullable(),
-  price: Price.required(T.required),
+  price: Price.schema(),
   isCompleted: t.boolean().default(false).typeError(T.typeBoolean),
 });

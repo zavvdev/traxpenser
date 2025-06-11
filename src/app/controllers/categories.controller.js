@@ -3,6 +3,7 @@ import { MESSAGES } from "../../infra/config.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { categoriesService } from "../services/categories.service.js";
+import { Price } from "../types.js";
 import { getPeriodRangeSelector } from "../utilities.js";
 
 async function getAll({ res, middleware }) {
@@ -17,6 +18,17 @@ async function getAll({ res, middleware }) {
     maxDate,
   } = validQuery;
 
+  var budgetLimitQuery =
+    minBudgetLimit || maxBudgetLimit
+      ? R.omitBy(
+          {
+            $gte: minBudgetLimit ? Price.toDbValue(minBudgetLimit) : undefined,
+            $lte: maxBudgetLimit ? Price.toDbValue(maxBudgetLimit) : undefined,
+          },
+          R.isNullish,
+        )
+      : undefined;
+
   var categories = await Category.find(
     R.omitBy(
       {
@@ -25,10 +37,7 @@ async function getAll({ res, middleware }) {
           $regex: name || "",
           $options: "i",
         },
-        budgetLimit: {
-          $gte: minBudgetLimit || 0,
-          $lte: maxBudgetLimit || Number.MAX_SAFE_INTEGER,
-        },
+        budgetLimit: budgetLimitQuery,
         allowOverBudget,
         createdAt: getPeriodRangeSelector(minDate, maxDate),
       },
@@ -59,7 +68,7 @@ async function createOne({ res, middleware }) {
   var category = await Category.create({
     user: auth.id,
     name,
-    budgetLimit: budgetLimit || null,
+    budgetLimit: budgetLimit ? Price.toDbValue(budgetLimit) : null,
   });
 
   return successResponse(res)(category, MESSAGES.created);
@@ -78,7 +87,9 @@ async function updateOne({ req, res, middleware }) {
 
   var categoryNewData = {
     name,
-    budgetLimit: budgetLimit !== undefined ? budgetLimit : category.budgetLimit,
+    budgetLimit: Price.toDbValue(
+      budgetLimit !== undefined ? budgetLimit : category.budgetLimit,
+    ),
     allowOverBudget: allowOverBudget ?? category.allowOverBudget,
   };
 
