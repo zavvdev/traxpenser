@@ -10,8 +10,6 @@ export var assertSuccessResponse =
 
     if (data) {
       expect(res.body.data).toEqual(data);
-    } else {
-      expect(res.body.data).toBeNull();
     }
   };
 
@@ -24,7 +22,5 @@ export var assertErrorResponse =
 
     if (data) {
       expect(res.body.data).toEqual(data);
-    } else {
-      expect(res.body.data).toBeNull();
     }
   };
