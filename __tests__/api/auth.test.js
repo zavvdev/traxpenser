@@ -3,7 +3,11 @@ import request from "supertest";
 import { app } from "../../src/index.js";
 import { ROUTES } from "../../src/routes.js";
 import { LOGIN_CREDS } from "../config.js";
-import { assertErrorResponse, assertSuccessResponse } from "../utilities.js";
+import {
+  assertErrorResponse,
+  assertSuccessResponse,
+  login,
+} from "../utilities.js";
 import { MESSAGES } from "../../src/infra/config.js";
 import { expect } from "vitest";
 
@@ -48,6 +52,37 @@ describe("Auth API", () => {
       assertErrorResponse(res)({
         code: 404,
         message: MESSAGES.invalidCredentials,
+      });
+    });
+  });
+
+  describe("Logout", () => {
+    it("should logout user", async () => {
+      var token = await login();
+
+      var res = await request(app)
+        .delete(ROUTES.auth.logout())
+        .set("Authorization", token);
+
+      assertSuccessResponse(res)({
+        message: MESSAGES.ok,
+      });
+    });
+
+    it("should expire token after logout", async () => {
+      var token = await login();
+
+      await request(app)
+        .delete(ROUTES.auth.logout())
+        .set("Authorization", token);
+
+      var res = await request(app)
+        .delete(ROUTES.auth.logout())
+        .set("Authorization", token);
+
+      assertErrorResponse(res)({
+        code: 401,
+        message: MESSAGES.unauthorized,
       });
     });
   });
