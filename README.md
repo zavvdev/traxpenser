@@ -1,6 +1,8 @@
 # Setup
 
-1. Copy `.env.example` to `.env` and fill in the values
+1. Copy `.env.local.example` to `.env.local` and fill in the values
+
+Use `openssl rand -base64 756` to generate a secure `MONGO_REPLICA_SET_KEY`
 
 2. Edit your `/etc/hosts` file to include the following lines:
 

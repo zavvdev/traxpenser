@@ -1,5 +1,4 @@
 import express from "express";
-import "dotenv/config";
 
 import { authController } from "./app/controllers/auth.controller.js";
 import { categoriesController } from "./app/controllers/categories.controller.js";

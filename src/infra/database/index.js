@@ -1,3 +1,8 @@
+/**
+ * https://mongoosejs.com/docs/connections.html#buffering
+ * https://mongoosejs.com/docs/faq.html#creating_connections
+ */
+
 import mongoose from "mongoose";
 import {
   DB_HOST,
