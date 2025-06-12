@@ -25,6 +25,8 @@ async function calculateAvailableBudget(userId, category) {
     categoryIds: [category._id],
   });
 
+  console.log("Current Price:", currentPrice);
+
   return {
     isLimitless: category.isLimitless(),
     availableBudget: numberService.minus(

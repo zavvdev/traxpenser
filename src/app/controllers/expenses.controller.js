@@ -1,10 +1,11 @@
 import * as R from "remeda";
 import { MESSAGES } from "../../infra/config.js";
+import { numberService } from "../../infra/services/number.service.js";
 import { errorResponse, successResponse } from "../../infra/utilities.js";
 import { Category } from "../models/Category.js";
 import { Expense } from "../models/Expense.js";
 import { expensesService } from "../services/expenses.service.js";
-import { ObjectId } from "../types.js";
+import { ObjectId, Price } from "../types.js";
 import { getPeriodRangeSelector } from "../utilities.js";
 
 async function updateOne({ req, res, middleware }) {
@@ -37,7 +38,10 @@ async function updateOne({ req, res, middleware }) {
 
   await Expense.updateOne(
     { _id: id, user: auth.id, category: expense.category._id },
-    validBody,
+    {
+      ...validBody,
+      price: Price.toDbValue(validBody.price),
+    },
     { new: true },
   );
 
@@ -58,7 +62,7 @@ async function createOne({ res, middleware }) {
     category: categoryId,
     name,
     description,
-    price,
+    price: Price.toDbValue(price),
     isCompleted,
   };
 
@@ -84,6 +88,17 @@ async function getAll({ res, middleware }) {
   var { categoryId, isCompleted, name, minPrice, maxPrice, minDate, maxDate } =
     validQuery;
 
+  var priceQuery =
+    minPrice || maxPrice
+      ? R.omitBy(
+          {
+            $gte: minPrice ? Price.toDbValue(minPrice) : undefined,
+            $lte: maxPrice ? Price.toDbValue(maxPrice) : undefined,
+          },
+          R.isNullish,
+        )
+      : undefined;
+
   var expenses = await Expense.find(
     R.omitBy(
       {
@@ -94,10 +109,7 @@ async function getAll({ res, middleware }) {
           $regex: name || "",
           $options: "i",
         },
-        price: {
-          $gte: minPrice || 0,
-          $lte: maxPrice || Number.MAX_SAFE_INTEGER,
-        },
+        price: priceQuery,
         createdAt: getPeriodRangeSelector(minDate, maxDate),
       },
       R.isNullish,

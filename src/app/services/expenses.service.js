@@ -29,7 +29,7 @@ async function sumExpenses({
     },
   ]);
 
-  return Price.fromDbValue(currentPrice[0]?.totalPrice?.toString() || "0");
+  return Price.fromDbValue(currentPrice[0]?.totalPrice || "0");
 }
 
 async function canIncreaseExpenses(
@@ -48,7 +48,10 @@ async function canIncreaseExpenses(
     excludedExpenseIds: editExpenseId ? [editExpenseId] : [],
   });
 
-  var nextPrice = numberService.sum(currentPrice, newExpensePrice);
+  var nextPrice = numberService.sum(
+    currentPrice,
+    Price.fromDbValue(newExpensePrice),
+  );
 
   return numberService.lte(nextPrice, category.getBudgetLimit());
 }
