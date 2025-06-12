@@ -7,6 +7,7 @@
   "scripts": {
     "start": "dotenvx run -f .env.production -- cross-env NODE_ENV=production node src/index.js",
     "dev": "dotenvx run -f .env.local -- cross-env NODE_ENV=development nodemon src/index.js",
+    "test": "dotenvx run -f .env.test -- cross-env NODE_ENV=test vitest",
     "prepare": "husky",
     "analyze": "npx @biomejs/biome check ./src",
     "unsafe-fix": "npx @biomejs/biome check --fix --unsafe ./src"
@@ -35,6 +36,8 @@
     "@dotenvx/dotenvx": "^1.44.2",
     "cross-env": "^7.0.3",
     "husky": "^9.1.7",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.1",
+    "vitest": "^3.2.3"
   }
 }

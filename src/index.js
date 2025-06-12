@@ -17,9 +17,9 @@ import { updateExpenseRequestSchema } from "./app/requests/expenses/updateExpens
 import { updateSettingsRequestSchema } from "./app/requests/settings/updateSettings.request.js";
 import { APP_PORT } from "./infra/config.js";
 import { withMiddlewares } from "./infra/middleware.js";
+import { ROUTES } from "./routes.js";
 
-(() => {
-  var api = (path) => `/api/v1${path}`;
+export var app = (() => {
   var app = express();
 
   app.use(express.json());
@@ -27,29 +27,38 @@ import { withMiddlewares } from "./infra/middleware.js";
   // Auth
 
   app.post(
-    api("/auth/register"),
+    ROUTES.auth.register(),
     withMiddlewares(validBody(registerRequestSchema))(authController.register),
   );
 
   app.post(
-    api("/auth/login"),
+    ROUTES.auth.login(),
     withMiddlewares(validBody(loginRequestSchema))(authController.login),
   );
 
-  app.delete(api("/auth/logout"), withMiddlewares(auth)(authController.logout));
+  app.delete(
+    ROUTES.auth.logout(),
+    withMiddlewares(auth)(authController.logout),
+  );
 
   // Users
 
-  app.get(api("/me"), withMiddlewares(auth)(usersController.getMe));
+  app.get(ROUTES.users.me(), withMiddlewares(auth)(usersController.getMe));
 
-  app.delete(api("/me"), withMiddlewares(auth)(usersController.deleteMe));
+  app.delete(
+    ROUTES.users.me(),
+    withMiddlewares(auth)(usersController.deleteMe),
+  );
 
   // Settings
 
-  app.get(api("/settings"), withMiddlewares(auth)(settingsController.get));
+  app.get(
+    ROUTES.settings.root(),
+    withMiddlewares(auth)(settingsController.get),
+  );
 
   app.put(
-    api("/settings"),
+    ROUTES.settings.root(),
     withMiddlewares(
       auth,
       validBody(updateSettingsRequestSchema),
@@ -59,7 +68,7 @@ import { withMiddlewares } from "./infra/middleware.js";
   // Categories
 
   app.get(
-    api("/categories"),
+    ROUTES.categories.root(),
     withMiddlewares(
       auth,
       validQuery(getCategoriesRequestSchema),
@@ -67,12 +76,12 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.get(
-    api("/categories/:id"),
+    ROUTES.categories.one(":id"),
     withMiddlewares(auth)(categoriesController.getOne),
   );
 
   app.post(
-    api("/categories"),
+    ROUTES.categories.root(),
     withMiddlewares(
       auth,
       validBody(mutateCategoryRequestSchema),
@@ -80,7 +89,7 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.put(
-    api("/categories/:id"),
+    ROUTES.categories.one(":id"),
     withMiddlewares(
       auth,
       validBody(mutateCategoryRequestSchema),
@@ -88,19 +97,19 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.delete(
-    api("/categories/:id"),
+    ROUTES.categories.one(":id"),
     withMiddlewares(auth)(categoriesController.deleteOne),
   );
 
   app.get(
-    api("/categories/:id/available-budget"),
+    ROUTES.categories.availableBudget(":id"),
     withMiddlewares(auth)(categoriesController.getAvailableBudget),
   );
 
   // Expenses
 
   app.post(
-    api("/expenses"),
+    ROUTES.expenses.root(),
     withMiddlewares(
       auth,
       validBody(createExpenseRequestSchema),
@@ -108,7 +117,7 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.get(
-    api("/expenses"),
+    ROUTES.expenses.root(),
     withMiddlewares(
       auth,
       validQuery(getExpensesRequestSchema),
@@ -116,7 +125,7 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.get(
-    api("/expenses/total-price"),
+    ROUTES.expenses.totalPrice(),
     withMiddlewares(
       auth,
       validQuery(getTotalExpensesPriceRequestSchema),
@@ -124,12 +133,12 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.get(
-    api("/expenses/:id"),
+    ROUTES.expenses.one(":id"),
     withMiddlewares(auth)(expensesController.getOne),
   );
 
   app.put(
-    api("/expenses/:id"),
+    ROUTES.expenses.one(":id"),
     withMiddlewares(
       auth,
       validBody(updateExpenseRequestSchema),
@@ -137,7 +146,7 @@ import { withMiddlewares } from "./infra/middleware.js";
   );
 
   app.delete(
-    api("/expenses/:id"),
+    ROUTES.expenses.one(":id"),
     withMiddlewares(auth)(expensesController.deleteOne),
   );
 
@@ -147,4 +156,6 @@ import { withMiddlewares } from "./infra/middleware.js";
     console.log(`Started on port ${APP_PORT}`);
     console.log("Mode:", process.env.NODE_ENV);
   });
+
+  return app;
 })();

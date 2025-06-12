@@ -34,6 +34,8 @@ To login into the MongoDB shell, you can use the following commands:
 
 `make start` - start the application
 
+`make test` - run tests
+
 `make analyze` - run code analysis tools
 
 `make unsafe-fix` - run code analysis unsafe code fixes
