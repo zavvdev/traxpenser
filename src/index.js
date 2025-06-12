@@ -145,5 +145,6 @@ import { withMiddlewares } from "./infra/middleware.js";
 
   app.listen(APP_PORT, () => {
     console.log(`Started on port ${APP_PORT}`);
+    console.log("Mode:", process.env.NODE_ENV);
   });
 })();
