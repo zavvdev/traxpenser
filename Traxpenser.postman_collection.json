@@ -200,12 +200,12 @@
                 },
                 {
                   "key": "minBudgetLimit",
-                  "value": "1002",
+                  "value": "9000000000000000000000000000123.456",
                   "disabled": true
                 },
                 {
                   "key": "maxBudgetLimit",
-                  "value": "2000",
+                  "value": "9000000000000000000000000000123456",
                   "disabled": true
                 },
                 {
@@ -243,9 +243,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2",
+              "raw": "{{API_URL}}/api/v1/categories/6849e922e32c277f29ea5071",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "categories", "683ac9aea16ddccfe98de6b2"]
+              "path": ["api", "v1", "categories", "6849e922e32c277f29ea5071"]
             }
           },
           "response": []
@@ -266,7 +266,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"March 2025\",\n    \"budgetLimit\": 100\n}",
+              "raw": "{\n    \"name\": \"Big 2\",\n    \"budgetLimit\": \"9000000000000000000000000000123.456\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -297,7 +297,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"June 2025\",\n    \"budgetLimit\": 100,\n    \"allowOverBudget\": true\n}",
+              "raw": "{\n    \"name\": \"Big\",\n    \"budgetLimit\": \"9000000000000000000000000000123456\",\n    \"allowOverBudget\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -305,9 +305,9 @@
               }
             },
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2",
+              "raw": "{{API_URL}}/api/v1/categories/6849e922e32c277f29ea5071",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "categories", "683ac9aea16ddccfe98de6b2"]
+              "path": ["api", "v1", "categories", "6849e922e32c277f29ea5071"]
             }
           },
           "response": []
@@ -349,13 +349,13 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/categories/683ac9aea16ddccfe98de6b2/available-budget",
+              "raw": "{{API_URL}}/api/v1/categories/6849e922e32c277f29ea5071/available-budget",
               "host": ["{{API_URL}}"],
               "path": [
                 "api",
                 "v1",
                 "categories",
-                "683ac9aea16ddccfe98de6b2",
+                "6849e922e32c277f29ea5071",
                 "available-budget"
               ]
             }
@@ -388,7 +388,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"categoryId\": \"683c0561f80287eefcc020bd\",\n    \"name\": \"Product A1B2\",\n    \"price\": 49.01,\n    \"isCompleted\": false\n}",
+              "raw": "{\n    \"categoryId\": \"6849e922e32c277f29ea5071\",\n    \"name\": \"Big Item 4\",\n    \"price\": \"7200000000000000000000000000098766\",\n    \"isCompleted\": false\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -418,7 +418,7 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses?categoryId=683ad8c4e97fe82147dc6866",
+              "raw": "{{API_URL}}/api/v1/expenses?categoryId=6849e922e32c277f29ea5071",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "expenses"],
               "query": [
@@ -454,7 +454,7 @@
                 },
                 {
                   "key": "categoryId",
-                  "value": "683ad8c4e97fe82147dc6866"
+                  "value": "6849e922e32c277f29ea5071"
                 }
               ]
             }
@@ -476,9 +476,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses/683c06203f76886ad609c2f7",
+              "raw": "{{API_URL}}/api/v1/expenses/684a8994bb61b737ecbaeda7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "expenses", "683c06203f76886ad609c2f7"]
+              "path": ["api", "v1", "expenses", "684a8994bb61b737ecbaeda7"]
             }
           },
           "response": []
@@ -499,7 +499,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Product AB\",\n    \"description\": \"\",\n    \"price\": 50.99,\n    \"isCompleted\": true\n}",
+              "raw": "{\n    \"name\": \"Big Item 4\",\n    \"description\": \"\",\n    \"price\": \"7200000000000000000000000000098765\",\n    \"isCompleted\": false\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -507,9 +507,9 @@
               }
             },
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses/683c06203f76886ad609c2f7",
+              "raw": "{{API_URL}}/api/v1/expenses/684a8994bb61b737ecbaeda7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "v1", "expenses", "683c06203f76886ad609c2f7"]
+              "path": ["api", "v1", "expenses", "684a8994bb61b737ecbaeda7"]
             }
           },
           "response": []
@@ -551,25 +551,28 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/v1/expenses/total-price?categoryIds[]=683ad8c4e97fe82147dc6866&categoryIds[]=683ac9aea16ddccfe98de6b2&minDate=2025-05-31&maxDate=2025-05-31",
+              "raw": "{{API_URL}}/api/v1/expenses/total-price?categoryIds[]=6849e922e32c277f29ea5071",
               "host": ["{{API_URL}}"],
               "path": ["api", "v1", "expenses", "total-price"],
               "query": [
                 {
                   "key": "categoryIds[]",
-                  "value": "683ad8c4e97fe82147dc6866"
+                  "value": "6849e922e32c277f29ea5071"
                 },
                 {
                   "key": "categoryIds[]",
-                  "value": "683ac9aea16ddccfe98de6b2"
+                  "value": "6849f40e2075c3423639ed63",
+                  "disabled": true
                 },
                 {
                   "key": "minDate",
-                  "value": "2025-05-31"
+                  "value": "2025-05-31",
+                  "disabled": true
                 },
                 {
                   "key": "maxDate",
-                  "value": "2025-05-31"
+                  "value": "2025-05-31",
+                  "disabled": true
                 }
               ]
             }
