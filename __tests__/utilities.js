@@ -1,7 +1,7 @@
-import { expect } from "vitest";
-import { MESSAGES, RESPONSE_STATUS } from "../src/infra/config";
 import request from "supertest";
+import { expect } from "vitest";
 import { app } from "../src/index.js";
+import { MESSAGES, RESPONSE_STATUS } from "../src/infra/config";
 import { ROUTES } from "../src/routes.js";
 import { LOGIN_CREDS } from "./config.js";
 

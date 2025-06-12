@@ -1,6 +1,8 @@
-import { describe, it } from "vitest";
 import request from "supertest";
+import { describe, it } from "vitest";
+import { expect } from "vitest";
 import { app } from "../../src/index.js";
+import { MESSAGES } from "../../src/infra/config.js";
 import { ROUTES } from "../../src/routes.js";
 import { LOGIN_CREDS } from "../config.js";
 import {
@@ -8,8 +10,6 @@ import {
   assertSuccessResponse,
   login,
 } from "../utilities.js";
-import { MESSAGES } from "../../src/infra/config.js";
-import { expect } from "vitest";
 
 describe("Auth API", () => {
   describe("Register", () => {

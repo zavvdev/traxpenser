@@ -9,8 +9,8 @@
     "dev": "dotenvx run -f .env.local -- cross-env NODE_ENV=development nodemon src/index.js",
     "test": "dotenvx run -f .env.test -- cross-env NODE_ENV=test vitest",
     "prepare": "husky",
-    "analyze": "npx @biomejs/biome check ./src",
-    "unsafe-fix": "npx @biomejs/biome check --fix --unsafe ./src"
+    "analyze": "npx @biomejs/biome check .",
+    "unsafe-fix": "npx @biomejs/biome check --fix --unsafe ."
   },
   "repository": {
     "type": "git",

@@ -1,15 +1,15 @@
-import { describe, it } from "vitest";
 import request from "supertest";
+import { describe, it } from "vitest";
+import { expect } from "vitest";
+import { CURRENCY, DEFAULT_SETTINGS } from "../../src/app/models/Settings.js";
 import { app } from "../../src/index.js";
+import { MESSAGES, VALIDATION_MESSAGES } from "../../src/infra/config.js";
 import { ROUTES } from "../../src/routes.js";
 import {
   assertErrorResponse,
   assertSuccessResponse,
   login,
 } from "../utilities.js";
-import { expect } from "vitest";
-import { CURRENCY, DEFAULT_SETTINGS } from "../../src/app/models/Settings.js";
-import { MESSAGES, VALIDATION_MESSAGES } from "../../src/infra/config.js";
 
 describe("Settings API", () => {
   it("should get user settings", async () => {
