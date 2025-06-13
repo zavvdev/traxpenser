@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": ["node_modules", ".git", ".husky", ".env*"]
   },
   "formatter": {
     "enabled": true,
@@ -25,7 +25,9 @@
         "noParameterAssign": "off"
       },
       "correctness": {
-        "noInnerDeclarations": "off"
+        "noInnerDeclarations": "off",
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
       },
       "complexity": {
         "noForEach": "off"

@@ -4,6 +4,9 @@ dev:
 start:
 	pnpm start
 
+test:
+	pnpm test
+
 analyze:
 	pnpm analyze
 
