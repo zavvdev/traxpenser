@@ -63,12 +63,13 @@ async function getOne({ req, res, middleware }) {
 
 async function createOne({ res, middleware }) {
   var { auth, validBody } = middleware;
-  var { name, budgetLimit } = validBody;
+  var { name, budgetLimit, allowOverBudget } = validBody;
 
   var category = await Category.create({
     user: auth.id,
     name,
     budgetLimit: budgetLimit ? Price.toDbValue(budgetLimit) : null,
+    allowOverBudget,
   });
 
   return successResponse(res)(category, MESSAGES.created);

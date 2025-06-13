@@ -3,7 +3,11 @@ import { describe, it } from "vitest";
 import { expect } from "vitest";
 import { CURRENCY, DEFAULT_SETTINGS } from "../../src/app/models/Settings.js";
 import { app } from "../../src/index.js";
-import { MESSAGES, VALIDATION_MESSAGES } from "../../src/infra/config.js";
+import {
+  AUTH_HEADER,
+  MESSAGES,
+  VALIDATION_MESSAGES,
+} from "../../src/infra/config.js";
 import { ROUTES } from "../../src/routes.js";
 import {
   assertErrorResponse,
@@ -15,7 +19,7 @@ describe("Settings API", () => {
   it("should get user settings", async () => {
     var res = await request(app)
       .get(ROUTES.settings.root())
-      .set("Authorization", await login());
+      .set(AUTH_HEADER, await login());
 
     expect(res.body.data.currency).toEqual(DEFAULT_SETTINGS.currency);
   });
@@ -26,13 +30,13 @@ describe("Settings API", () => {
     var res = await request(app)
       .put(ROUTES.settings.root())
       .send({ currency: CURRENCY.PLN })
-      .set("Authorization", token);
+      .set(AUTH_HEADER, token);
 
     assertSuccessResponse(res)();
 
     var settings = await request(app)
       .get(ROUTES.settings.root())
-      .set("Authorization", token);
+      .set(AUTH_HEADER, token);
 
     expect(settings.body.data.currency).toEqual(CURRENCY.PLN);
   });
@@ -43,7 +47,7 @@ describe("Settings API", () => {
     var res = await request(app)
       .put(ROUTES.settings.root())
       .send({ currency: "asd" })
-      .set("Authorization", token);
+      .set(AUTH_HEADER, token);
 
     assertErrorResponse(res)({
       code: 400,

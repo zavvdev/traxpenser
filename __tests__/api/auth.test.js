@@ -2,7 +2,7 @@ import request from "supertest";
 import { describe, it } from "vitest";
 import { expect } from "vitest";
 import { app } from "../../src/index.js";
-import { MESSAGES } from "../../src/infra/config.js";
+import { AUTH_HEADER, MESSAGES } from "../../src/infra/config.js";
 import { ROUTES } from "../../src/routes.js";
 import { LOGIN_CREDS } from "../config.js";
 import {
@@ -62,7 +62,7 @@ describe("Auth API", () => {
 
       var res = await request(app)
         .delete(ROUTES.auth.logout())
-        .set("Authorization", token);
+        .set(AUTH_HEADER, token);
 
       assertSuccessResponse(res)({
         message: MESSAGES.ok,
@@ -72,13 +72,11 @@ describe("Auth API", () => {
     it("should expire token after logout", async () => {
       var token = await login();
 
-      await request(app)
-        .delete(ROUTES.auth.logout())
-        .set("Authorization", token);
+      await request(app).delete(ROUTES.auth.logout()).set(AUTH_HEADER, token);
 
       var res = await request(app)
         .delete(ROUTES.auth.logout())
-        .set("Authorization", token);
+        .set(AUTH_HEADER, token);
 
       assertErrorResponse(res)({
         code: 401,
