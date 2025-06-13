@@ -392,5 +392,51 @@ describe("Expenses API", () => {
 
       expect(res.body.data).toEqual("80.99");
     });
+
+    it("should return a sub of expenses from specified categories", async () => {
+      await createCategories();
+      var token = await login();
+
+      var categories = await request(app)
+        .get(ROUTES.categories.root())
+        .set(AUTH_HEADER, token);
+
+      var categoryId1 = categories.body.data[0].id;
+      var categoryId2 = categories.body.data[1].id;
+
+      await request(app)
+        .post(ROUTES.expenses.root())
+        .send({
+          categoryId: categoryId1,
+          name: "Expense 1",
+          price: "50.99",
+        })
+        .set(AUTH_HEADER, token);
+
+      await request(app)
+        .post(ROUTES.expenses.root())
+        .send({
+          categoryId: categoryId2,
+          name: "Expense 2",
+          price: "30.00",
+        })
+        .set(AUTH_HEADER, token);
+
+      await request(app)
+        .post(ROUTES.expenses.root())
+        .send({
+          categoryId: categoryId1,
+          name: "Expense 3",
+          price: "20.00",
+        })
+        .set(AUTH_HEADER, token);
+
+      var res = await request(app)
+        .get(ROUTES.expenses.totalPrice())
+        .query({ "categoryIds[]": categoryId1 })
+        .set(AUTH_HEADER, token);
+
+      expect(res.body.data).toEqual("70.99");
+    });
   });
 });
