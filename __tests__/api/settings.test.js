@@ -16,45 +16,49 @@ import {
 } from "../utilities.js";
 
 describe("Settings API", () => {
-  it("should get user settings", async () => {
-    var res = await request(app)
-      .get(ROUTES.settings.root())
-      .set(AUTH_HEADER, await login());
+  describe(`GET ${ROUTES.settings.root()}`, () => {
+    it("should get user settings", async () => {
+      var res = await request(app)
+        .get(ROUTES.settings.root())
+        .set(AUTH_HEADER, await login());
 
-    expect(res.body.data.currency).toEqual(DEFAULT_SETTINGS.currency);
+      expect(res.body.data.currency).toEqual(DEFAULT_SETTINGS.currency);
+    });
   });
 
-  it("should update user settings", async () => {
-    var token = await login();
+  describe(`PUT ${ROUTES.settings.root()}`, () => {
+    it("should update user settings", async () => {
+      var token = await login();
 
-    var res = await request(app)
-      .put(ROUTES.settings.root())
-      .send({ currency: CURRENCY.PLN })
-      .set(AUTH_HEADER, token);
+      var res = await request(app)
+        .put(ROUTES.settings.root())
+        .send({ currency: CURRENCY.PLN })
+        .set(AUTH_HEADER, token);
 
-    assertSuccessResponse(res)();
+      assertSuccessResponse(res)();
 
-    var settings = await request(app)
-      .get(ROUTES.settings.root())
-      .set(AUTH_HEADER, token);
+      var settings = await request(app)
+        .get(ROUTES.settings.root())
+        .set(AUTH_HEADER, token);
 
-    expect(settings.body.data.currency).toEqual(CURRENCY.PLN);
-  });
+      expect(settings.body.data.currency).toEqual(CURRENCY.PLN);
+    });
 
-  it("should not update user settings with invalid currency", async () => {
-    var token = await login();
+    it("should not update user settings with invalid currency", async () => {
+      var token = await login();
 
-    var res = await request(app)
-      .put(ROUTES.settings.root())
-      .send({ currency: "asd" })
-      .set(AUTH_HEADER, token);
+      var res = await request(app)
+        .put(ROUTES.settings.root())
+        .send({ currency: "asd" })
+        .set(AUTH_HEADER, token);
 
-    assertErrorResponse(res)({
-      code: 400,
-      message: MESSAGES.validationError,
-      data: {
-        currency: VALIDATION_MESSAGES.invalid,
-      },
+      assertErrorResponse(res)({
+        code: 400,
+        message: MESSAGES.validationError,
+        data: {
+          currency: VALIDATION_MESSAGES.invalid,
+        },
+      });
     });
   });
 });

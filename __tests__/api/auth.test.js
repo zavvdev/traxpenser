@@ -12,7 +12,7 @@ import {
 } from "../utilities.js";
 
 describe("Auth API", () => {
-  describe("Register", () => {
+  describe(`POST ${ROUTES.auth.register()}`, () => {
     it("should register a new user", async () => {
       var res = await request(app)
         .post(ROUTES.auth.register())
@@ -34,7 +34,7 @@ describe("Auth API", () => {
     });
   });
 
-  describe("Login", () => {
+  describe(`POST ${ROUTES.auth.login()}`, () => {
     it("should login registered user", async () => {
       await request(app).post(ROUTES.auth.register()).send(LOGIN_CREDS);
       var res = await request(app).post(ROUTES.auth.login()).send(LOGIN_CREDS);
@@ -56,7 +56,7 @@ describe("Auth API", () => {
     });
   });
 
-  describe("Logout", () => {
+  describe(`DELETE ${ROUTES.auth.logout()}`, () => {
     it("should logout user", async () => {
       var token = await login();
 

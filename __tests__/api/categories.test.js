@@ -48,7 +48,7 @@ var createCategories = async () => {
 };
 
 describe("Categories API", () => {
-  describe("POST /categories", () => {
+  describe(`POST ${ROUTES.categories.root()}`, () => {
     it("should create categories", async () => {
       await createCategories();
 
@@ -122,7 +122,7 @@ describe("Categories API", () => {
     });
   });
 
-  describe("GET /categories", () => {
+  describe(`GET ${ROUTES.categories.root()}`, () => {
     it("should get categories", async () => {
       await createCategories();
 
@@ -148,7 +148,7 @@ describe("Categories API", () => {
     });
   });
 
-  describe("GET /categories/:id", async () => {
+  describe(`GET ${ROUTES.categories.one(":id")}`, async () => {
     it("should get a category by ID", async () => {
       await createCategories();
 
@@ -181,7 +181,7 @@ describe("Categories API", () => {
     });
   });
 
-  describe("PUT /categories/:id", async () => {
+  describe(`PUT ${ROUTES.categories.one(":id")}`, async () => {
     it("should update a category", async () => {
       await createCategories();
 
@@ -326,7 +326,7 @@ describe("Categories API", () => {
     });
   });
 
-  describe("DELETE /categories/:id", async () => {
+  describe(`DELETE ${ROUTES.categories.one("id")}`, async () => {
     it("should delete a category", async () => {
       await createCategories();
 
