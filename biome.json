@@ -25,7 +25,9 @@
         "noParameterAssign": "off"
       },
       "correctness": {
-        "noInnerDeclarations": "off"
+        "noInnerDeclarations": "off",
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
       },
       "complexity": {
         "noForEach": "off"
