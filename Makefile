@@ -13,14 +13,8 @@ analyze:
 unsafe-fix:
 	pnpm unsafe-fix
 
-db-up-local:
-	docker compose --env-file .env.local up -d
-
 db-stop:
 	docker compose stop
-
-db-start-local:
-	docker compose --env-file .env.local start
 
 db-up:
 	docker compose --env-file .env.production up -d
@@ -33,6 +27,18 @@ db-down:
 
 db-exec:
 	docker exec -it $(id) bash
+
+db-up-dev:
+	docker compose --env-file .env.local up -d
+
+db-start-dev:
+	docker compose --env-file .env.local start
+
+db-up-test:
+	docker compose --env-file .env.test up -d
+
+db-start-test:
+	docker compose --env-file .env.test start
 
 sc:
 	docker ps
